@@ -11,7 +11,8 @@ public class Menu {
 	
 	private static Controller c = new Controller();
 	
-	public static String start() throws FileNotFoundException, IllegalArgumentException, InvalidRouteException, DestinationAlreadyExistsException {
+	public static String start() throws
+		FileNotFoundException, IllegalArgumentException, InvalidRouteException, DestinationAlreadyExistsException, CloneNotSupportedException {
 		
 		Scanner s = new Scanner(System.in);
 		String option = s.nextLine();
@@ -53,7 +54,7 @@ public class Menu {
 						System.out.println("NO SUCH ROUTE");
 					}
 					System.out.println("\n Please press one key to continue");
-                   	pressAnyKey();
+                   	
 					printMenu();
 					break;
 				case 5:
@@ -61,9 +62,9 @@ public class Menu {
 					break;
 				case 6:
 					System.out.println("Please introduce the start town and destination town to calculate the shortest route:");
-					c.computeShortestRoute(s.nextLine());
+					IO.printShortestPath(c.computeShortestRoute(s.nextLine()));
 					System.out.println("\n Please press one key to continue");
-                   	pressAnyKey();
+                   	
 					printMenu();
 					break;
 				case 7:

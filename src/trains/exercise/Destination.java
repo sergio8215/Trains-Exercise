@@ -1,6 +1,6 @@
 package trains.exercise;
 
-public class Destination implements Comparable{
+public class Destination{
 	private Town town;
 	private int weight;
 	
@@ -21,13 +21,4 @@ public class Destination implements Comparable{
 		return weight;
 	}
 	
-	@Override
-	public int compareTo(Object o) {
-		  if(this.weight == ((FoodItems)o).valueOfFood)
-		        return 0;
-		    else if (this.x <((FoodItems)o).valueOfFood)
-		        return 1;
-		    else 
-		        return -1;
-	}
 }

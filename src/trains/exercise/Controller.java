@@ -1,7 +1,9 @@
 package trains.exercise;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.PriorityQueue;
 
 import trains.exercise.exception.DestinationAlreadyExistsException;
@@ -41,6 +43,9 @@ public class Controller {
 			} catch (InvalidRouteException e) {
 				System.err.println( "Error reading the data: " + e.getMessage());
 				Menu.printMenu();
+			} catch (CloneNotSupportedException e) {
+				System.err.println( "Error computing shortest path ");
+				Menu.printMenu();
 			}
 		}
 	}
@@ -71,50 +76,80 @@ public class Controller {
 		
 	}
 	
-	public List<String> computeShortestRoute(String in) throws IllegalArgumentException, DestinationAlreadyExistsException, InvalidRouteException  {
+	public List<Town> computeShortestRoute(String in) throws
+		IllegalArgumentException, DestinationAlreadyExistsException, InvalidRouteException, CloneNotSupportedException  {
 		
 		String[] towns = IO.validateShortestRoute(in);
 		Town start = new Town(towns[0]);
 		Town end =  new Town(towns[1]);
+		Graph g = graph.clone();
 		
 		// Initialize all distances to infinity
-		graph.getMinimumWeight().entrySet().forEach(entry-> {
+		g.getMinimumWeight().entrySet().forEach(entry-> {
 			entry.setValue(INFINITY);
 		});
 	
 		Destination dest = new Destination(start, 0);
-		graph.getGraphP().get(start.getName()).add(dest);
-		graph.getMinimumWeight().put(start.getName(), 0);
+		g.getGraphP().get(start.getName()).add(dest);
+		g.getMinimumWeight().put(start.getName(), 0);
 		Town v = start;
+		int w = 0;
 		
-		while( graph.getCandidates().size() != 0 ) {
+		while( g.getCandidates().size() != 0 ) {
 			
-			Destination u = graph.getGraphP().get(v.getName()).poll();
-			graph.getCandidates().remove(u.getTown().getName());
+			Destination u = g.getGraphP().get(v.getName()).poll();
+			if( u == null ) {
+				u = g.getGraphP().get(g.getCandidates().iterator().next()).poll();
+			} 
+			v = u.getTown();
+			g.getCandidates().remove(u.getTown().getName());
+			//TODO: Copia?
+			PriorityQueue<Destination> neighbor = new PriorityQueue<Destination>(g.getGraphP().get(u.getTown().getName())) ;
+			int size = neighbor.size();
 			
-			for( int i=0; i< graph.getGraphP().get(u.getTown().getName()).size(); i++) {
+			for( int i=0; i < size; i++) {
 				
-				int w = u.getWeight();
+				Destination n = neighbor.poll();
 				
-				if( graph.getMinimumWeight().get(u.getTown().getName()) == INFINITY ){
-					graph.getMinimumWeight().put(u.getTown().getName(), w);
-					graph.getSucesors().put(u.getTown().getName(), v);
+				if( g.getMinimumWeight().get(n.getTown().getName()) == INFINITY ){
+					
+					w = u.getWeight() + n.getWeight();
+					
+					g.getMinimumWeight().put(n.getTown().getName(), w);
+					g.getSucesors().put(n.getTown().getName(), u.getTown());
 				
 				}else {
-					w += graph.getMinimumWeight().get(u.getTown().getName());
 					
-					if( w < graph.getMinimumWeight().get(u.getTown().getName())) {
-						graph.getMinimumWeight().put(u.getTown().getName(), w);
-						graph.getSucesors().put(u.getTown().getName(), v);
+					w = g.getMinimumWeight().get(u.getTown().getName()) + n.getWeight();
+					
+					if( w < g.getMinimumWeight().get(n.getTown().getName())) {
+						g.getMinimumWeight().put(n.getTown().getName(), w);
+						g.getSucesors().put(n.getTown().getName(), u.getTown());
 					}
 				}
 			}
 			
-			graph.getVisited().add(u.getTown().getName());
+			g.getVisited().add(u.getTown().getName());
 		}
 		
-		System.out.println("R= " + graph.getSucesors().get(start.getName()).toString());
-		return null;
+		return shortestRoute(start, end);
+	}
+	
+	private List<Town> shortestRoute(Town start, Town end){
+		List<Town> result = new ArrayList<Town>();
+		Town sucesor = graph.getSucesors().get(end.getName());
+		result.add(end);
+		
+		if(sucesor != null) {			
+			result.add(sucesor);
+			while( !(sucesor.getName()).equals(start.getName()) ) {
+				
+				sucesor = graph.getSucesors().get(sucesor.getName());
+				result.add(sucesor);
+			}
+		}
+
+		return result;
 	}
 	
 	public void generateGraph(String[] in) throws IllegalArgumentException, DestinationAlreadyExistsException {

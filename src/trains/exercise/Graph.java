@@ -8,7 +8,7 @@ import java.util.Set;
 
 import trains.exercise.exception.DestinationAlreadyExistsException;
 
-public class Graph {
+public class Graph implements Cloneable{
 	
 	
 	// Compute distance following a route
@@ -37,6 +37,11 @@ public class Graph {
 		this.graph = graph;
 	}
 
+    public Graph clone() throws
+		CloneNotSupportedException { 
+    	return (Graph)super.clone(); 
+    }
+    
 
 	public Map<String, PriorityQueue<Destination>> getGraphP() {
 		return graphP;
@@ -68,7 +73,8 @@ public class Graph {
 	 * @throws DestinationAlreadyExistsException
 	 * @throws IllegalArgumentException
 	 */
-	public void generateGraph( String[] routes ) throws DestinationAlreadyExistsException,IllegalArgumentException{
+	public void generateGraph( String[] routes ) throws
+		DestinationAlreadyExistsException,IllegalArgumentException{
 
 		for(String route: routes) {
 			
@@ -94,7 +100,7 @@ public class Graph {
 				destination.put(end, weight);
 				graph.put( start, destination);
 				Destination d = new Destination(new Town(end),weight);
-				PriorityQueue<Destination> pq= new PriorityQueue<Destination>();
+				PriorityQueue<Destination> pq= new PriorityQueue<Destination>(new DestinationComparator());
 				pq.add(d);
 				graphP.put(start, pq );
 				minimumWeight.put(start, 0);

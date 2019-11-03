@@ -1,6 +1,7 @@
 package trains.exercise;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
 
 import trains.exercise.exception.InvalidRouteException;
@@ -49,6 +50,25 @@ public class IO {
 	}
 	
 	/**
+	 * Prints the shortest path between two towns
+	 * @param sp path of towns 
+	 */
+	public static void printShortestPath(List<Town> sp) {
+		
+		if ( sp.size()>1 ) {
+			for( int i = 0; i < sp.size(); i++ ) {
+				if( i != (sp.size()-1) ) {
+					System.out.print( sp.get(i).getName()+"-" );
+				}else {
+					System.out.print( sp.get(i).getName());
+				} 
+			}			
+		}else {
+			System.out.println("There is no possible route");
+		}
+	}
+	
+	/**
 	 * Reads and validates list of towns, each town is one letter 
 	 * @param towns names
 	 * @return list of towns validated
@@ -72,6 +92,7 @@ public class IO {
 		if( towns.length == 2 ) {
 			validateTown(towns[0]);
 			validateTown(towns[1]);
+			isNotLoopRoute(towns[0], towns[1]);
 		}else {
 			throw new InvalidRouteException("To compute distance, the entry should be 2 towns");
 		}
@@ -95,7 +116,9 @@ public class IO {
 	}
 	
 	public static boolean validateData( String data ) throws InvalidRouteException{
-	    if(data.length() == 3) return isLetter(data.charAt(0)) && isLetter(data.charAt(1)) && isNumber(data.charAt(2));
+	    if(data.length() == 3) return 	isLetter(data.charAt(0)) &&
+	    								isLetter(data.charAt(1)) &&
+	    								isNumber(data.charAt(2));
 		throw new InvalidRouteException("The route '"+data+"' is invalid, please use the format LetterLetterNumber, ex: AB4");
 	}
 	
@@ -107,5 +130,10 @@ public class IO {
 	private static boolean isNumber( char i ) {
 		if ( Character.isDigit(i) ) return true; 
 		throw new IllegalArgumentException("The weight of the route should be a number, now it's '"+ i +"'");
+	}
+	
+	private static boolean isNotLoopRoute( String s, String d ) {
+		if ( !s.equals(d) ) return true; 
+		throw new IllegalArgumentException("A route from '"+s+"' to it self is not possible");
 	}
 }
