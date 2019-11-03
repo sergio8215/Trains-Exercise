@@ -20,11 +20,17 @@ public class Graph{
 	// Compute shortest distance
 	private Map<String, List<Destination> > graphP;
 	private Map<String, Integer> minimumWeight;
-	private Map<String, Town> sucesors;
+	private Map<String, Town> successor;
 	
 	private Set<String> candidates;
 	private Set<String> visited;
 	
+	// Number of different routes between two towns
+	private List<Boolean> visitedDFS;
+	private List<Integer> ndfs;
+	private List<Integer> ninv;
+	private int num_dfs = 0;
+	private int num_inv = 0;
 
 	/**
 	 * Empty constructor method
@@ -34,7 +40,7 @@ public class Graph{
 		graph = new HashMap<String, Map<String, Integer> >();
 		graphP = new HashMap<String, List<Destination> >();
 		minimumWeight = new HashMap<String, Integer>();
-		sucesors = new HashMap<String, Town>();
+		successor = new HashMap<String, Town>();
 		candidates = new HashSet<String>();
 		visited = new HashSet<String>(); 
 	}
@@ -92,8 +98,8 @@ public class Graph{
 		return minimumWeight;
 	}
 
-	public Map<String, Town> getSucesors() {
-		return sucesors;
+	public Map<String, Town> getSuccessor() {
+		return successor;
 	}
 
 	public Set<String> getCandidates() {
@@ -107,4 +113,24 @@ public class Graph{
 	public Map<String, Map<String, Integer> > getGraph(){
 		return graph;
 	}
+
+	public List<Boolean> getVisitedDFS() {
+		return visitedDFS;
+	}
+
+	public List<Integer> getNdfs() {
+		return ndfs;
+	}
+
+	public List<Integer> getNinv() {
+		return ninv;
+	}
+
+	public int getNum_dfs() {
+		return num_dfs;
+	}
+
+	public int getNum_inv() {
+		return num_inv;
+	}	
 }

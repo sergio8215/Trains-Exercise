@@ -35,24 +35,29 @@ public class Menu {
 					break;
 				case 1:
 					System.out.println("For the input, the towns are named using one letter of the alphabet from A to Z. A route between two towns (A to B) with a\r\n" + 
-							"distance of 5 is represented as AB5.\r\n" + 
-							"\r\n" + 
-							"Example Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7\r\n");
+					        "distance of 5 is represented as AB5.\r\n" + 
+					        "\r\n" + 
+					        "Example Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7\r\n");
 					System.out.println("Option 2. If you want to introduce the data with an input file, you need to write the Graph in one line separating the routes with coma ',' as the example. You'll be ask for the absolute route of the file, example: C:\\user\\pepito\\input.txt");
 					System.out.println("Option 3. If you want to introduce the data manually, you can write the Graph in one line separating the routes with coma ','.");
 					System.out.println("Option 4. The input data should be with the format: town-town-town-town, ex: A-B-D-F");
+					System.out.println("Option 5. The input data should be with the format: TownTown, ex: AB");
+					System.out.println("Option 6. The input data should be with the format: TownTown, ex: AB");
+
 					break;
 				case 2:
 					System.out.println("Please insert the routes information: ");
 					c.generateGraph(IO.readGraphManual(s.nextLine()));
 					c.printGraph();
-					printMenu();
+					System.out.println("\n The graph have been generated successfully");
+					System.out.println("\n Press 0 to show the menu");
 					break;
 				case 3:
 					System.out.println("Please enter fullpath of the file: ");
 					c.generateGraph(IO.readGraphFile(s.nextLine()));
 					c.printGraph();
-					printMenu();
+					System.out.println("\n The graph have been generated successfully");
+					System.out.println("\n Press 0 to show the menu");
 					break;
 				case 4:
 					System.out.println("Please introduce the route to calculate the distance: ");
@@ -62,9 +67,7 @@ public class Menu {
 					}else{
 						System.out.println("NO SUCH ROUTE");
 					}
-					System.out.println("\n Please press one key to continue");
-                   	
-					printMenu();
+					System.out.println("\n Press 0 to show the menu");
 					break;
 				case 5:
 					System.out.println("Please introduce the start town and destination town to calculate the number of routes: ");
@@ -72,16 +75,14 @@ public class Menu {
 				case 6:
 					System.out.println("Please introduce the start town and destination town to calculate the shortest route:");
 					IO.printShortestPath(c.computeShortestRoute(s.nextLine()));
-					System.out.println("\n Please press one key to continue");
-                   	
-					printMenu();
-					break;
+					System.out.println("\n Press 0 to show the menu");
+                   	break;
 				case 7:
 					// Exit
 					break;
 				default:
 					System.err.println("That option doesn't exist, please select one option in the menu");
-					printMenu();
+					System.out.println("\n Press 0 to show the menu");
 					break;
 			}
 		}catch(NumberFormatException e){

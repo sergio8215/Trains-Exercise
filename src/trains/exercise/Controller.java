@@ -10,7 +10,7 @@ import trains.exercise.exception.InvalidRouteException;
 
 public class Controller {
 	
-	private final int INFINITY = 999999;
+	private final int INFINITY = 9999999;
 	
 	private Graph graph;
 
@@ -79,10 +79,6 @@ public class Controller {
 		return distance;
 	}
 	
-	private int computeDistanceChild(  ) {
-		return 0;
-	}
-	
 	/**
 	 * Check if town exists in the graph
 	 * @param town
@@ -132,13 +128,13 @@ public class Controller {
 		graph.getMinimumWeight().entrySet().forEach(entry-> {
 			entry.setValue(INFINITY);
 		});
-		// If the algorithm was executed before, we initialize the structures
+		// If the algorithm was executed, initialize the structures
 		if( graph.getCandidates().isEmpty() ) initializeStructuresDijkstra();
 		
 		// Start point of the algorithm
 		graph.getMinimumWeight().put(start.getName(), 0);
 		
-		// For each candidate we find the shortest path
+		// For each candidate we find the shortest path to the start point
 		while( graph.getCandidates().size() != 0 ) {
 			
 			Destination cand = getMinimumCand();
@@ -148,7 +144,7 @@ public class Controller {
 			int size = graph.getGraphP().get(cand.getTown().getName()).size();
 			
 			for( int i=0; i < size; i++) {
-				// checking all neighbor weights
+				// checking all candidate neighbors weights
 				Destination neighbor = graph.getGraphP().get(cand.getTown().getName()).get(i);
 				updateMinimumWeight(neighbor, cand);
 			}
@@ -167,12 +163,13 @@ public class Controller {
 	private void updateMinimumWeight(Destination neighbor, Destination cand) {
 		int w = 0;
 		
-		if( isInfinity(neighbor) ){
+		if( isInfinitySavedWeight(neighbor) ){
 			
 			w = cand.getWeight() + neighbor.getWeight();
 			
 			graph.getMinimumWeight().put(neighbor.getTown().getName(), w);
-			graph.getSucesors().put(neighbor.getTown().getName(), cand.getTown());
+			// Add the town to the successor list
+			graph.getSuccessor().put(neighbor.getTown().getName(), cand.getTown());
 		
 		}else {
 			
@@ -180,7 +177,8 @@ public class Controller {
 			
 			if( w < graph.getMinimumWeight().get(neighbor.getTown().getName())) {
 				graph.getMinimumWeight().put(neighbor.getTown().getName(), w);
-				graph.getSucesors().put(neighbor.getTown().getName(), cand.getTown());
+				// Add the town to the successor list
+				graph.getSuccessor().put(neighbor.getTown().getName(), cand.getTown());
 			}
 		}
 	}
@@ -191,7 +189,7 @@ public class Controller {
 	private void initializeStructuresDijkstra() {
 		graph.getCandidates().addAll(graph.getVisited());
 		graph.getVisited().clear();
-		graph.getSucesors().clear();
+		graph.getSuccessor().clear();
 	}
 	
 	/**
@@ -219,7 +217,7 @@ public class Controller {
 	 * @param d
 	 * @return true if is infinity
 	 */
-	private boolean isInfinity( Destination d ) {
+	private boolean isInfinitySavedWeight( Destination d ) {
 		return graph.getMinimumWeight().get(d.getTown().getName()) == INFINITY;
 	}
 	
@@ -231,14 +229,14 @@ public class Controller {
 	 */
 	private List<Town> shortestRoute(Town start, Town end){
 		List<Town> result = new ArrayList<Town>();
-		Town sucesor = graph.getSucesors().get(end.getName());
+		Town sucesor = graph.getSuccessor().get(end.getName());
 		result.add(end);
 		
 		if(sucesor != null) {			
 			result.add(sucesor);
 			while( !(sucesor.getName()).equals(start.getName()) ) {
 				
-				sucesor = graph.getSucesors().get(sucesor.getName());
+				sucesor = graph.getSuccessor().get(sucesor.getName());
 				result.add(sucesor);
 			}
 		}
