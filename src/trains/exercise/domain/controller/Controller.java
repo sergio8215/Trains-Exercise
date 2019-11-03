@@ -37,7 +37,6 @@ public class Controller {
 	 * Function that capture errors and calls the menu
 	 */
 	public void start() {
-		
 		Menu.printMenu();
 		String option = "0";
 		
@@ -134,8 +133,36 @@ public class Controller {
 	}
 	
 	/**
-	 * Validates the input, and verify if the algorithm needs to be run
+	 * Validates that the input is with the format Town Town and compute the number of different routes
 	 * @param in
+	 * @return number of different routes between two towns
+	 * @throws IllegalArgumentException
+	 * @throws InvalidRouteException
+	 */
+	public int numberDifferentRoutesAndValidate(String in) throws
+		IllegalArgumentException, InvalidRouteException {
+		String[] towns = IO.validateTwoTownRoute(in);
+		Town start = new Town(towns[0]);
+		Town end =  new Town(towns[1]);
+		
+		return numberDifferentRoutes(start, end);
+	}
+	
+	/**
+	 * Compute the number of different routes between two towns
+	 * @param start
+	 * @param end
+	 * @return number of different routes between two towns
+	 */
+	public int numberDifferentRoutes(Town start, Town end) {
+		
+		return 0;
+	}
+	
+	
+	/**
+	 * Validates the input, and verify if dijkstra algorithm needs to be run
+	 * @param in - input to validate
 	 * @return A route with minimum distance between two towns
 	 * @throws IllegalArgumentException
 	 * @throws DestinationAlreadyExistsException
@@ -145,11 +172,11 @@ public class Controller {
 	public List<Town> computeShortestRouteAndValidate(String in) throws
 		IllegalArgumentException, DestinationAlreadyExistsException, InvalidRouteException, CloneNotSupportedException  {
 		
-		String[] towns = IO.validateShortestRoute(in);
+		String[] towns = IO.validateTwoTownRoute(in);
 		Town start = new Town(towns[0]);
 		Town end =  new Town(towns[1]);
 		
-		// If the algorithm was not executed, or the start town is different than the last execution
+		// If the algorithm was not executed, or was executed and the start town is different than the last execution
 		if( !wasDijkstraExecuted ||
 			(wasDijkstraExecuted && !isSameStartCity(start)) ) {			
 			

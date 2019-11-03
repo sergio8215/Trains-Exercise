@@ -38,10 +38,12 @@ Output #5: NO SUCH ROUTE
     * Eclipse 2019-09 R (4.13.0)
 
 ### Assumptions
-    * Towns names are just 1 letter from a-z or A-Z
-    * Towns doesn't have a route directly to the same town, example: AA
+    * Town names are just 1 letter from a-z or A-Z
+    * For a given route, the starting and ending town will not be the same town
     * Routes must be minimum composed for 2 towns
-    * The weight of the routes have to be > 0
+    * The weight of the routes must be > 0
+    * A given route will never appear more than once
+    * Just simple routes are considered
 
 ### First use:
     * To execute the program you need to run the Main as a Java Application,
@@ -59,7 +61,7 @@ Output #5: NO SUCH ROUTE
 #### Option 0. Print the menu
     Prints the menu
 
-#### Option 1.
+#### Option 1. Help
     Shows program helpful information
 
 #### Option 2. Introduce input graph data manually 
@@ -72,19 +74,19 @@ Output #5: NO SUCH ROUTE
     example: AB5. Each route is separated by , Example: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
     All the routes should be written in the same line of a .txt file. After
     selecting the option 3 you'll be ask for the absolute route
-    of the file, example: C:\user\pepito\input.txt"
+    of the file, example: C:\user\pepito\input.txt
 
 #### Option 4. Calculate distance along route
     Computes distance along a route, the format of the input is
-    Town-Town-Town-Town, as many towns as you want, example. A-B-C-D-E
+    Town-Town-Town-Town, as many towns as you want, example: A-B-C-D-E
 
 #### Option 5. Number of different routes between two towns
     Computes the number of different routes between two towns,
-    the format of the input is TownTown, example. AB    
+    the format of the input is TownTown, example: AB    
 
 #### Option 6. Shortest route between two towns
     Computes the shortest route between two towns, the format of
-    the input is TownTown, example. AB    
+    the input is TownTown, example: AB    
 
 #### Option 7. Exist of the program
     This option finishes the execution of the program.

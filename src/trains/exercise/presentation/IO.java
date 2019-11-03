@@ -107,13 +107,13 @@ public class IO {
 	}
 	
 	/**
-	 * Validates if the input to calculate the shortest route is correct 
-	 * @param in
+	 * Validates if the input is with the format TownTown 
+	 * @param in - input to validate
 	 * @return if the input is correct, return a list of 2 towns
 	 * @throws IllegalArgumentException
 	 * @throws InvalidRouteException
 	 */
-	public static String[] validateShortestRoute(String in) throws IllegalArgumentException, InvalidRouteException {
+	public static String[] validateTwoTownRoute(String in) throws IllegalArgumentException, InvalidRouteException {
 		String[] towns = in.toUpperCase().split("");
 	
 		if( towns.length == 2 ) {
