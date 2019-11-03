@@ -20,11 +20,6 @@ public class Graph{
 	
 	// Compute shortest distance
 	private Map<String, List<Destination> > graphP;
-	private Map<String, Integer> minimumWeight;
-	private Map<String, Town> successor;
-	
-	private Set<String> candidates;
-	private Set<String> visited;
 	
 	// Number of different routes between two towns
 	private List<Boolean> visitedDFS;
@@ -40,10 +35,7 @@ public class Graph{
 		
 		graph = new HashMap<String, Map<String, Integer> >();
 		graphP = new HashMap<String, List<Destination> >();
-		minimumWeight = new HashMap<String, Integer>();
-		successor = new HashMap<String, Town>();
-		candidates = new HashSet<String>();
-		visited = new HashSet<String>(); 
+
 	}
 	
 
@@ -112,22 +104,6 @@ public class Graph{
 	/* Getters */
 	public Map<String, List<Destination>> getGraphP() {
 		return graphP;
-	}
-
-	public Map<String, Integer> getMinimumWeight() {
-		return minimumWeight;
-	}
-
-	public Map<String, Town> getSuccessor() {
-		return successor;
-	}
-
-	public Set<String> getCandidates() {
-		return candidates;
-	}
-
-	public Set<String> getVisited() {
-		return visited;
 	}
 
 	public Map<String, Map<String, Integer> > getGraph(){

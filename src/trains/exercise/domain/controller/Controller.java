@@ -2,9 +2,13 @@ package trains.exercise.domain.controller;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import trains.exercise.domain.classes.Candidate;
 import trains.exercise.domain.classes.Destination;
 import trains.exercise.domain.classes.Graph;
 import trains.exercise.domain.classes.Town;
@@ -21,6 +25,12 @@ public class Controller {
 	private boolean wasDijkstraExecuted;
 	private boolean graphLoaded;
 	private Town	startDijkstra; 
+	
+	// Dijkstra algorithm
+	private HashMap<String, Integer> minimumWeight;
+	private Map<String, Town> predecessor;
+	private Set<String> candidates;
+	private Set<String> visited;
 
 	/**
 	 * Empty constructor
@@ -31,6 +41,10 @@ public class Controller {
 		wasDijkstraExecuted = false;
 		graphLoaded = false;
 		startDijkstra = null;
+		minimumWeight = new HashMap<String, Integer>();
+		predecessor = new HashMap<String, Town>();
+		candidates = new HashSet<String>();
+		visited = new HashSet<String>(); 
 	}
 	
 	/**
@@ -64,9 +78,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Validates the input and compute the distance between to towns along a certain route 
-	 * @param in Route to compute distance
-	 * @return Calculated distance or NO SUCH ROUTE if the route doesn't exist
+	 * Validates the input and compute the distance between two towns along a certain path 
+	 * @param in path to compute distance
+	 * @return Calculated distance or NO SUCH ROUTE if the path doesn't exist
 	 * @throws IllegalArgumentException wrong city name
 	 * @throws DestinationAlreadyExistsException Town already exist
 	 * @throws InvalidRouteException Invalid route to compute
@@ -78,9 +92,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Compute the distance between to towns along a certain route.
+	 * Compute the distance between to towns along a certain path.
 	 * @param townsList
-	 * @return distance between a certain route
+	 * @return distance between a certain path
 	 * @throws IllegalArgumentException
 	 * @throws DestinationAlreadyExistsException
 	 * @throws InvalidRouteException
@@ -133,37 +147,40 @@ public class Controller {
 	}
 	
 	/**
-	 * Validates that the input is with the format Town Town and compute the number of different routes
+	 * Validates that the input is with the format Town Town and compute the number of different paths
 	 * @param in
-	 * @return number of different routes between two towns
+	 * @return number of different paths between two towns
 	 * @throws IllegalArgumentException
 	 * @throws InvalidRouteException
 	 */
-	public int numberDifferentRoutesAndValidate(String in) throws
-		IllegalArgumentException, InvalidRouteException {
-		String[] towns = IO.validateTwoTownRoute(in);
-		Town start = new Town(towns[0]);
-		Town end =  new Town(towns[1]);
-		
-		return numberDifferentRoutes(start, end);
-	}
+//	public int numberDifferentRoutesAndValidate(String in) throws
+//		IllegalArgumentException, InvalidRouteException {
+//		String[] towns = IO.validateTwoTownRoute(in);
+//		Town start = new Town(towns[0]);
+//		Town end =  new Town(towns[1]);
+//		
+//		return numberDifferentRoutes(start, end);
+//	}
 	
 	/**
-	 * Compute the number of different routes between two towns
+	 * Compute the number of different paths between two towns
 	 * @param start
 	 * @param end
-	 * @return number of different routes between two towns
+	 * @return number of different paths between two towns
 	 */
-	public int numberDifferentRoutes(Town start, Town end) {
-		
-		return 0;
-	}
+//	public int numberDifferentRoutes(Town start, Town end) {
+//		
+//		for( int i = 0; i <  ) {
+//			
+//		}
+//		return 0;
+//	}
 	
 	
 	/**
 	 * Validates the input, and verify if dijkstra algorithm needs to be run
 	 * @param in - input to validate
-	 * @return A route with minimum distance between two towns
+	 * @return A path with minimum distance between two towns
 	 * @throws IllegalArgumentException
 	 * @throws DestinationAlreadyExistsException
 	 * @throws InvalidRouteException
@@ -189,7 +206,7 @@ public class Controller {
 	}
 	
 	/**
-	 * Compute a route with minimum distance between two towns
+	 * Compute a path with minimum distance between two towns
 	 * @param start
 	 * @throws IllegalArgumentException
 	 * @throws DestinationAlreadyExistsException
@@ -200,14 +217,14 @@ public class Controller {
 		IllegalArgumentException, DestinationAlreadyExistsException, InvalidRouteException, CloneNotSupportedException  {
 		
 		// Start point of the algorithm
-		graph.getMinimumWeight().put(start.getName(), 0);
+		minimumWeight.put(start.getName(), 0);
 		
 		// For each candidate we find the shortest path to the start point
-		while( graph.getCandidates().size() != 0 ) {
+		while( candidates.size() != 0 ) {
 			
-			Destination cand = getMinimumCand();
+			Candidate cand = getMinimumCand( );
 			// we remove the candidate from the unvisited list
-			graph.getCandidates().remove(cand.getTown().getName());
+			candidates.remove(cand.getTown().getName());
 			
 			int size = graph.getGraphP().get(cand.getTown().getName()).size();
 			
@@ -217,7 +234,7 @@ public class Controller {
 				updateMinimumWeight(neighbor, cand);
 			}
 			// We add the candidate to the visited list
-			graph.getVisited().add(cand.getTown().getName());
+			visited.add(cand.getTown().getName());
 		}
 	}
 	
@@ -227,22 +244,22 @@ public class Controller {
 	 * @param neighbor
 	 * @param cand
 	 */
-	private void updateMinimumWeight(Destination neighbor, Destination cand) {
+	private void updateMinimumWeight( Destination neighbor, Candidate cand ) {
 		int w = 0;
 		
 		if( isInfinitySavedWeight(neighbor) ){
 			w = cand.getWeight() + neighbor.getWeight();
-			graph.getMinimumWeight().put(neighbor.getTown().getName(), w);
+			minimumWeight.put(neighbor.getTown().getName(), w);
 			// Add the town to the predecessors list
-			graph.getSuccessor().put(neighbor.getTown().getName(), cand.getTown());
+			predecessor.put(neighbor.getTown().getName(), cand.getTown());
 		
 		}else {
-			w = graph.getMinimumWeight().get(cand.getTown().getName()) + neighbor.getWeight();
+			w = minimumWeight.get(cand.getTown().getName()) + neighbor.getWeight();
 			
-			if( w < graph.getMinimumWeight().get(neighbor.getTown().getName())) {
-				graph.getMinimumWeight().put(neighbor.getTown().getName(), w);
+			if( w < minimumWeight.get(neighbor.getTown().getName())) {
+				minimumWeight.put(neighbor.getTown().getName(), w);
 				// Add the town to the predecessors list
-				graph.getSuccessor().put(neighbor.getTown().getName(), cand.getTown());
+				predecessor.put(neighbor.getTown().getName(), cand.getTown());
 			}
 		}
 	}
@@ -252,15 +269,19 @@ public class Controller {
 	}
 	
 	/**
-	 * After applying the algorithm one time, we have to reset this structures to the initial values
+	 * Initialize Dijkstra structure 
 	 */
-	private void initializeStructuresDijkstra() {
-		graph.getCandidates().addAll(graph.getGraphP().keySet());
-		graph.getVisited().clear();
-		graph.getSuccessor().clear();
+	private void initializeStructuresDijkstra(  ) {
+		minimumWeight = new HashMap<String, Integer>();
+		predecessor = new HashMap<String, Town>();
+		candidates = new HashSet<String>();
+		visited = new HashSet<String>(); 
+		
+		candidates.addAll(graph.getGraphP().keySet());
+		
 		// Initialize all distances to infinity
-		for( String k: graph.getCandidates() ) {
-			graph.getMinimumWeight().put(k, INFINITY);
+		for( String k: candidates ) {
+			minimumWeight.put(k, INFINITY);
 		}
 	}
 	
@@ -268,19 +289,19 @@ public class Controller {
 	 * Gets the candidate with minimum weight
 	 * @return candidate
 	 */
-	private Destination getMinimumCand() {
+	private Candidate getMinimumCand( ) {
 		int minimum = INFINITY+1;
 		int weight = INFINITY;
 		String result = "";
 		
-		for( String cand: graph.getCandidates() ) {
-			weight = graph.getMinimumWeight().get(cand);
+		for( String cand: candidates ) {
+			weight = minimumWeight.get(cand);
 			if ( weight < minimum ) {
 				result = cand;
 				minimum = weight;
 			}
 		}
-		return new Destination(new Town(result), minimum);
+		return new Candidate(new Town(result), minimum);
 	}
 	
 	/**
@@ -289,7 +310,7 @@ public class Controller {
 	 * @return true if is infinity
 	 */
 	private boolean isInfinitySavedWeight( Destination d ) {
-		return graph.getMinimumWeight().get(d.getTown().getName()) == INFINITY;
+		return minimumWeight.get(d.getTown().getName()) == INFINITY;
 	}
 	
 	/**
@@ -298,16 +319,16 @@ public class Controller {
 	 * @param end point
 	 * @return Ordered list with the route
 	 */
-	private List<Town> shortestRoute(Town start, Town end){
+	private List<Town> shortestRoute(Town start, Town end ){
 		List<Town> result = new ArrayList<Town>();
-		Town sucesor = graph.getSuccessor().get(end.getName());
+		Town sucesor = predecessor.get(end.getName());
 		result.add(end);
 		
 		if(sucesor != null) {			
 			result.add(sucesor);
 			while( !(sucesor.getName()).equals(start.getName()) ) {
 				
-				sucesor = graph.getSuccessor().get(sucesor.getName());
+				sucesor = predecessor.get(sucesor.getName());
 				result.add(sucesor);
 			}
 		}

@@ -38,12 +38,13 @@ Output #5: NO SUCH ROUTE
     * Eclipse 2019-09 R (4.13.0)
 
 ### Assumptions
+    * A track is a direct connection from one town to another
+    * A path is way to get from one town to another, trough one or more tracks
     * Town names are just 1 letter from a-z or A-Z
-    * For a given route, the starting and ending town will not be the same town
-    * Routes must be minimum composed for 2 towns
-    * The weight of the routes must be > 0
-    * A given route will never appear more than once
-    * Just simple routes are considered
+    * For a given track, the starting and ending town will not be the same
+    * The weight of the track must be > 0
+    * A given track will never appear more than once
+    * When searching for path, only simple path will be considered
 
 ### First use:
     * To execute the program you need to run the Main as a Java Application,
@@ -66,7 +67,8 @@ Output #5: NO SUCH ROUTE
 
 #### Option 2. Introduce input graph data manually 
     Option to introduce the graph information. The format is TownTownWeight, 
-    example: AB5. Each route is separated by , Example: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
+    example: AB5. Means that there is a direct route from A to B with weight 5,
+    Each direct route is separated by , Example: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
     All the routes should be written in the same line, after all routes are written you can press Enter.
 
 #### Option 3. Introduce input graph data with a file
@@ -77,7 +79,8 @@ Output #5: NO SUCH ROUTE
     of the file, example: C:\user\pepito\input.txt
 
 #### Option 4. Calculate distance along route
-    Computes distance along a route, the format of the input is
+    Computes distance along a route. The program will compute the distance
+    between each track and give the total sum of the path. the format of the input is
     Town-Town-Town-Town, as many towns as you want, example: A-B-C-D-E
 
 #### Option 5. Number of different routes between two towns
@@ -88,5 +91,5 @@ Output #5: NO SUCH ROUTE
     Computes the shortest route between two towns, the format of
     the input is TownTown, example: AB    
 
-#### Option 7. Exist of the program
+#### Option 7. Exit of the program
     This option finishes the execution of the program.

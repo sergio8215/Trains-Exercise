@@ -1,11 +1,11 @@
 package trains.exercise.domain.classes;
 
 	/**
-	 * Candidate weight gives the track weight
+	 * Candidate weight gives the full path weight 
 	 * @author Sergio
 	 *
 	 */
-public class Destination{
+public class Candidate {
 	private Town town;
 	private int weight;
 	
@@ -13,7 +13,7 @@ public class Destination{
 	 * @param name
 	 * @param weight
 	 */
-	public Destination(Town town, int weight) {
+	public Candidate(Town town, int weight) {
 		this.town = town;
 		this.weight = weight;
 	}
@@ -25,5 +25,4 @@ public class Destination{
 	public int getWeight() {
 		return weight;
 	}
-	
 }
