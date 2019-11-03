@@ -11,6 +11,15 @@ public class Menu {
 	
 	private static Controller c = new Controller();
 	
+	/**
+	 * Manage the menu and options 
+	 * @return option chosen
+	 * @throws FileNotFoundException
+	 * @throws IllegalArgumentException
+	 * @throws InvalidRouteException
+	 * @throws DestinationAlreadyExistsException
+	 * @throws CloneNotSupportedException
+	 */
 	public static String start() throws
 		FileNotFoundException, IllegalArgumentException, InvalidRouteException, DestinationAlreadyExistsException, CloneNotSupportedException {
 		
@@ -82,6 +91,9 @@ public class Menu {
 		return option;
 	}
 	
+	/**
+	 * Prints the menu options
+	 */
 	public static void printMenu(){
 		System.out.println("\nPlease press");
 		System.out.println("0. Print the menu");

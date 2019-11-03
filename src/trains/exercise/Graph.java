@@ -4,30 +4,31 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import com.google.gson.Gson;
 
 import trains.exercise.exception.DestinationAlreadyExistsException;
-
+/**
+ * Represents a directed graph, with nodes as towns and edges with weight
+ * @author Sergio
+ *
+ */
 public class Graph{
 	
-	private String[] originalGraph;
 	// Compute distance following a route
 	private Map<String, Map<String, Integer> > graph;
 	
 	// Compute shortest distance
 	private Map<String, List<Destination> > graphP;
-	private Map<String, Integer> minimumWeight; //D
+	private Map<String, Integer> minimumWeight;
 	private Map<String, Town> sucesors;
 	
 	private Set<String> candidates;
 	private Set<String> visited;
 	
 
-	
+	/**
+	 * Empty constructor method
+	 */
 	public Graph() {
 		
 		graph = new HashMap<String, Map<String, Integer> >();
@@ -39,39 +40,14 @@ public class Graph{
 	}
 	
 
-	public Map<String, List<Destination>> getGraphP() {
-		return graphP;
-	}
-
-	public Map<String, Integer> getMinimumWeight() {
-		return minimumWeight;
-	}
-
-	public Map<String, Town> getSucesors() {
-		return sucesors;
-	}
-
-	public Set<String> getCandidates() {
-		return candidates;
-	}
-
-	public Set<String> getVisited() {
-		return visited;
-	}
-
-	public Map<String, Map<String, Integer> > getGraph(){
-		return graph;
-	}
-	
 	/**
-	 * Pre: Exists values of routes, the syntax of the routes is correct.
+	 * Generates a graph from the user routes entry.
 	 * @param routes
 	 * @throws DestinationAlreadyExistsException
 	 * @throws IllegalArgumentException
 	 */
 	public void generateGraph( String[] routes ) throws
 		DestinationAlreadyExistsException,IllegalArgumentException{
-		originalGraph = routes;
 		
 		for(String route: routes) {
 			
@@ -105,5 +81,30 @@ public class Graph{
 			
 			}
 		}
+	}
+	
+	/* Getters */
+	public Map<String, List<Destination>> getGraphP() {
+		return graphP;
+	}
+
+	public Map<String, Integer> getMinimumWeight() {
+		return minimumWeight;
+	}
+
+	public Map<String, Town> getSucesors() {
+		return sucesors;
+	}
+
+	public Set<String> getCandidates() {
+		return candidates;
+	}
+
+	public Set<String> getVisited() {
+		return visited;
+	}
+
+	public Map<String, Map<String, Integer> > getGraph(){
+		return graph;
 	}
 }

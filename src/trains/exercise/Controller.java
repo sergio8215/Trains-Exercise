@@ -3,8 +3,7 @@ package trains.exercise;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.PriorityQueue;
+import java.util.Map;
 
 import trains.exercise.exception.DestinationAlreadyExistsException;
 import trains.exercise.exception.InvalidRouteException;
@@ -16,12 +15,16 @@ public class Controller {
 	private Graph graph;
 
 	/**
+	 * Empty constructor
 	 * @param graph
 	 */
 	public Controller() {
 		this.graph = new Graph();
 	}
 	
+	/**
+	 * Function that capture errors and call the menu
+	 */
 	public void start() {
 		
 		Menu.printMenu();
@@ -54,18 +57,19 @@ public class Controller {
 	 * Compute the distance between to towns along a certain route.
 	 * @param in Route to compute distance
 	 * @return Calculated distance or NO SUCH ROUTE if the route doesn't exist
-	 * @throws IllegalArgumentException wrong city name character
+	 * @throws IllegalArgumentException wrong city name
 	 * @throws DestinationAlreadyExistsException Town already exist
 	 * @throws InvalidRouteException Invalid route to compute
 	 */
-	public int computeDistance(String in) throws IllegalArgumentException, DestinationAlreadyExistsException, InvalidRouteException  {
+	public int computeDistance(String in) throws
+			IllegalArgumentException, DestinationAlreadyExistsException, InvalidRouteException  {
 		int distance = 0;
 		String[] townsList = IO.readRoute(in);
 		
 		for( int i = 0; i < townsList.length-1; i++ ) {
-			if( graph.getGraph().containsKey(townsList[i].charAt(0)) && 
-				graph.getGraph().get(townsList[i].charAt(0)).containsKey(townsList[i+1].charAt(0))) {
-				distance += graph.getGraph().get(townsList[i].charAt(0)).get(townsList[i+1].charAt(0));
+			if( containsTown(townsList[i]) && 
+				containsDestinationTown(townsList[i], townsList[i+1])) {
+				distance += graph.getGraph().get(townsList[i]).get(townsList[i+1]);
 				
 			}else {
 				distance = -1;
@@ -73,7 +77,39 @@ public class Controller {
 			}
 		}
 		return distance;
-		
+	}
+	
+	private int computeDistanceChild(  ) {
+		return 0;
+	}
+	
+	/**
+	 * Check if town exists in the graph
+	 * @param town
+	 * @return
+	 */
+	private boolean containsTown(String town){
+		return graph.getGraph().
+				containsKey(town);
+	}
+	
+	/**
+	 * Gets town routes from the graph
+	 * @param town
+	 * @return
+	 */
+	private Map<String,Integer> getTown(String town) {
+		return graph.getGraph().
+				get(town);
+	}
+	
+	/**
+	 * Check if a destination town exists in the graph
+	 * @param town
+	 * @return
+	 */
+	private boolean containsDestinationTown(String townStart, String townEnd){
+		return getTown(townStart).containsKey(townEnd);
 	}
 	
 	/**
@@ -96,21 +132,17 @@ public class Controller {
 		graph.getMinimumWeight().entrySet().forEach(entry-> {
 			entry.setValue(INFINITY);
 		});
-	
-		if( graph.getCandidates().isEmpty() ){
-			graph.getCandidates().addAll(graph.getVisited());
-			graph.getVisited().clear();
-			graph.getSucesors().clear();
-		}
+		// If the algorithm was executed before, we initialize the structures
+		if( graph.getCandidates().isEmpty() ) initializeStructuresDijkstra();
 		
+		// Start point of the algorithm
 		graph.getMinimumWeight().put(start.getName(), 0);
-		Town v = start;
-		int w = 0;
 		
+		// For each candidate we find the shortest path
 		while( graph.getCandidates().size() != 0 ) {
 			
 			Destination cand = getMinimumCand();
-			v = cand.getTown();
+			// we remove the candidate from the unvisited list
 			graph.getCandidates().remove(cand.getTown().getName());
 			
 			int size = graph.getGraphP().get(cand.getTown().getName()).size();
@@ -118,31 +150,54 @@ public class Controller {
 			for( int i=0; i < size; i++) {
 				// checking all neighbor weights
 				Destination neighbor = graph.getGraphP().get(cand.getTown().getName()).get(i);
-				
-				if( isInfinity(neighbor) ){
-					
-					w = cand.getWeight() + neighbor.getWeight();
-					
-					graph.getMinimumWeight().put(neighbor.getTown().getName(), w);
-					graph.getSucesors().put(neighbor.getTown().getName(), cand.getTown());
-				
-				}else {
-					
-					w = graph.getMinimumWeight().get(cand.getTown().getName()) + neighbor.getWeight();
-					
-					if( w < graph.getMinimumWeight().get(neighbor.getTown().getName())) {
-						graph.getMinimumWeight().put(neighbor.getTown().getName(), w);
-						graph.getSucesors().put(neighbor.getTown().getName(), cand.getTown());
-					}
-				}
+				updateMinimumWeight(neighbor, cand);
 			}
-			
+			// We add the candidate to the visited list
 			graph.getVisited().add(cand.getTown().getName());
 		}
 		
 		return shortestRoute(start, end);
 	}
 	
+	/**
+	 * Updates the minimum weight table with the new weight computation
+	 * @param neighbor
+	 * @param cand
+	 */
+	private void updateMinimumWeight(Destination neighbor, Destination cand) {
+		int w = 0;
+		
+		if( isInfinity(neighbor) ){
+			
+			w = cand.getWeight() + neighbor.getWeight();
+			
+			graph.getMinimumWeight().put(neighbor.getTown().getName(), w);
+			graph.getSucesors().put(neighbor.getTown().getName(), cand.getTown());
+		
+		}else {
+			
+			w = graph.getMinimumWeight().get(cand.getTown().getName()) + neighbor.getWeight();
+			
+			if( w < graph.getMinimumWeight().get(neighbor.getTown().getName())) {
+				graph.getMinimumWeight().put(neighbor.getTown().getName(), w);
+				graph.getSucesors().put(neighbor.getTown().getName(), cand.getTown());
+			}
+		}
+	}
+	
+	/**
+	 * After applying the algorithm one time, we have to reset this structures to the initial values
+	 */
+	private void initializeStructuresDijkstra() {
+		graph.getCandidates().addAll(graph.getVisited());
+		graph.getVisited().clear();
+		graph.getSucesors().clear();
+	}
+	
+	/**
+	 * Gets the candidate with minimum weight
+	 * @return candidate
+	 */
 	private Destination getMinimumCand() {
 		int minimum = INFINITY+1;
 		int weight = INFINITY;
@@ -159,9 +214,21 @@ public class Controller {
 		return new Destination(new Town(result), minimum);
 	}
 	
+	/**
+	 * Check if a destination weight is infinity
+	 * @param d
+	 * @return true if is infinity
+	 */
 	private boolean isInfinity( Destination d ) {
 		return graph.getMinimumWeight().get(d.getTown().getName()) == INFINITY;
 	}
+	
+	/**
+	 * Creates the route from one town to other, with the successor list
+	 * @param start point
+	 * @param end point
+	 * @return Ordered list with the route
+	 */
 	private List<Town> shortestRoute(Town start, Town end){
 		List<Town> result = new ArrayList<Town>();
 		Town sucesor = graph.getSucesors().get(end.getName());
@@ -175,14 +242,23 @@ public class Controller {
 				result.add(sucesor);
 			}
 		}
-
 		return result;
 	}
 	
-	public void generateGraph(String[] in) throws IllegalArgumentException, DestinationAlreadyExistsException {
+	/**
+	 * Call necessary method to generate a graph
+	 * @param in list of towns
+	 * @throws IllegalArgumentException
+	 * @throws DestinationAlreadyExistsException
+	 */
+	public void generateGraph(String[] in) throws
+		IllegalArgumentException, DestinationAlreadyExistsException {
 		graph.generateGraph(in);
 	}
 	
+	/**
+	 * Print a graph
+	 */
 	public void printGraph() {
 		IO.printGraph(graph);
 	}
