@@ -1,21 +1,25 @@
 package trains.exercise;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import com.google.gson.Gson;
 
 import trains.exercise.exception.DestinationAlreadyExistsException;
 
-public class Graph implements Cloneable{
+public class Graph{
 	
-	
+	private String[] originalGraph;
 	// Compute distance following a route
 	private Map<String, Map<String, Integer> > graph;
 	
 	// Compute shortest distance
-	private Map<String, PriorityQueue<Destination> > graphP;
+	private Map<String, List<Destination> > graphP;
 	private Map<String, Integer> minimumWeight; //D
 	private Map<String, Town> sucesors;
 	
@@ -25,25 +29,17 @@ public class Graph implements Cloneable{
 
 	
 	public Graph() {
+		
 		graph = new HashMap<String, Map<String, Integer> >();
-		graphP = new HashMap<String, PriorityQueue<Destination> >();
+		graphP = new HashMap<String, List<Destination> >();
 		minimumWeight = new HashMap<String, Integer>();
 		sucesors = new HashMap<String, Town>();
 		candidates = new HashSet<String>();
 		visited = new HashSet<String>(); 
 	}
 	
-	public Graph(Map<String, Map<String, Integer> > graph) {
-		this.graph = graph;
-	}
 
-    public Graph clone() throws
-		CloneNotSupportedException { 
-    	return (Graph)super.clone(); 
-    }
-    
-
-	public Map<String, PriorityQueue<Destination>> getGraphP() {
+	public Map<String, List<Destination>> getGraphP() {
 		return graphP;
 	}
 
@@ -75,7 +71,8 @@ public class Graph implements Cloneable{
 	 */
 	public void generateGraph( String[] routes ) throws
 		DestinationAlreadyExistsException,IllegalArgumentException{
-
+		originalGraph = routes;
+		
 		for(String route: routes) {
 			
 			String start = IO.getStart(route);
@@ -100,9 +97,9 @@ public class Graph implements Cloneable{
 				destination.put(end, weight);
 				graph.put( start, destination);
 				Destination d = new Destination(new Town(end),weight);
-				PriorityQueue<Destination> pq= new PriorityQueue<Destination>(new DestinationComparator());
-				pq.add(d);
-				graphP.put(start, pq );
+				List<Destination> destinations = new ArrayList<Destination>();
+				destinations.add(d);
+				graphP.put(start, destinations );
 				minimumWeight.put(start, 0);
 				candidates.add(start);
 			

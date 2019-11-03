@@ -54,13 +54,13 @@ public class IO {
 	 * @param sp path of towns 
 	 */
 	public static void printShortestPath(List<Town> sp) {
-		
-		if ( sp.size()>1 ) {
-			for( int i = 0; i < sp.size(); i++ ) {
-				if( i != (sp.size()-1) ) {
-					System.out.print( sp.get(i).getName()+"-" );
+		int size = sp.size();
+		if ( size>1 ) {
+			for( int i = 1; i <= size; i++) {
+				if( i != size ) {
+					System.out.print( sp.get(size-i).getName()+"-" );
 				}else {
-					System.out.print( sp.get(i).getName());
+					System.out.print( sp.get(size-i).getName());
 				} 
 			}			
 		}else {
