@@ -54,7 +54,7 @@ public class Controller {
 		Menu.printMenu();
 		String option = "0";
 		
-		while( !option.equals("7") ) {
+		while( !option.equals("9") ) {
 			try {
 				option = Menu.start();
 				
@@ -161,7 +161,7 @@ public class Controller {
 //		
 //		return numberDifferentRoutes(start, end);
 //	}
-	
+//	
 	/**
 	 * Compute the number of different paths between two towns
 	 * @param start
@@ -245,22 +245,13 @@ public class Controller {
 	 * @param cand
 	 */
 	private void updateMinimumWeight( Destination neighbor, Candidate cand ) {
-		int w = 0;
 		
-		if( isInfinitySavedWeight(neighbor) ){
-			w = cand.getWeight() + neighbor.getWeight();
+		int w = minimumWeight.get(cand.getTown().getName()) + neighbor.getWeight();
+			
+		if( w < minimumWeight.get(neighbor.getTown().getName())) {
 			minimumWeight.put(neighbor.getTown().getName(), w);
 			// Add the town to the predecessors list
 			predecessor.put(neighbor.getTown().getName(), cand.getTown());
-		
-		}else {
-			w = minimumWeight.get(cand.getTown().getName()) + neighbor.getWeight();
-			
-			if( w < minimumWeight.get(neighbor.getTown().getName())) {
-				minimumWeight.put(neighbor.getTown().getName(), w);
-				// Add the town to the predecessors list
-				predecessor.put(neighbor.getTown().getName(), cand.getTown());
-			}
 		}
 	}
 	
@@ -302,15 +293,6 @@ public class Controller {
 			}
 		}
 		return new Candidate(new Town(result), minimum);
-	}
-	
-	/**
-	 * Check if a destination weight is infinity
-	 * @param d
-	 * @return true if is infinity
-	 */
-	private boolean isInfinitySavedWeight( Destination d ) {
-		return minimumWeight.get(d.getTown().getName()) == INFINITY;
 	}
 	
 	/**

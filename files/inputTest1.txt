@@ -1,0 +1,10 @@
+A-B-C
+9
+A-D
+5
+A-D-C
+13
+A-E-B-C-D
+22
+A-E-D
+NO SUCH ROUTE

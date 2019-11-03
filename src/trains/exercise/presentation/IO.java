@@ -32,6 +32,7 @@ public class IO {
 	    
 	    return parts;
 	  } 
+	
 		
 	/**
 	 * Reads graph information from the console line

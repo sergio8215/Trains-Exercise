@@ -1,0 +1,10 @@
+AB
+A-B
+CB
+C-E-B
+DC
+D-C
+DB
+D-E-B
+DK
+There is no possible route

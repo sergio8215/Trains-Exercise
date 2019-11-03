@@ -5,7 +5,7 @@ import trains.exercise.domain.controller.Controller;
 public class Main {
 
 	/**
-	 * Main of the progam
+	 * Main of the program
 	 * @param args
 	 */
 	public static void main(String[] args) {

@@ -7,6 +7,7 @@ import java.util.Scanner;
 import trains.exercise.domain.controller.Controller;
 import trains.exercise.domain.exception.DestinationAlreadyExistsException;
 import trains.exercise.domain.exception.InvalidRouteException;
+import trains.exercise.domain.junits.ControllerTest;
 
 public class Menu {
 	
@@ -44,7 +45,9 @@ public class Menu {
 					System.out.println("Option 4. The input data should be with the format: town-town-town-town, ex: A-B-D-F");
 					System.out.println("Option 5. The input data should be with the format: TownTown, ex: AB");
 					System.out.println("Option 6. The input data should be with the format: TownTown, ex: AB");
-					System.out.println("Option 7. Exit");
+					System.out.println("Option 7. Test the distance along certain path, the format of the file should be, one line the path, next line expected answer, can be more than one test. In the same file.");
+					System.out.println("Option 8. Test the shortest path between two towns, the format of the file should be, one line the path, next line expected answer, can be more than one test. In the same file.");
+					System.out.println("Option 9. Exit");
 					break;
 				case 2:
 					System.out.println("Please insert the routes information: ");
@@ -89,6 +92,28 @@ public class Menu {
 					}
 				   	break;
 				case 7:
+					if(c.isGraphLoaded()) {
+						System.out.println("Test the distance between two towns along a certain path. First line of the file the input, second line expected output ");
+						System.out.println("Please enter fullpath of the file: ");
+						ControllerTest ct = new ControllerTest();
+						ct.readTestFileComputeDistance(s.nextLine(), c);
+						
+					}else {
+						System.out.println("First you need to load the graph");
+					}
+					break;
+				case 8:
+					if(c.isGraphLoaded()) {
+						System.out.println("Test the shortest path between two towns. First line of the file the input, second line expected output ");
+						System.out.println("Please enter fullpath of the file: ");
+						ControllerTest ct = new ControllerTest();
+						ct.readTestFilecomputeShortestRoute(s.nextLine(), c);
+						
+					}else {
+						System.out.println("First you need to load the graph");
+					}
+					break;
+				case 9:
 					// Exit
 					break;
 				default:
@@ -115,7 +140,9 @@ public class Menu {
 		System.out.println("4. Calculate distance along route" );
 		System.out.println("5. Number of different routes between two towns" );
 		System.out.println("6. Shortest route between two towns" );
-		System.out.println("7. Exit" );
+		System.out.println("7. Test the distance between two towns along a certain path" );
+		System.out.println("8. Test the shortest path between two towns" );
+		System.out.println("9. Exit" );
 	}
 	
 }

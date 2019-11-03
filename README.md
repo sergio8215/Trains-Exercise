@@ -91,5 +91,5 @@ Output #5: NO SUCH ROUTE
     Computes the shortest route between two towns, the format of
     the input is TownTown, example: AB    
 
-#### Option 7. Exit of the program
+#### Option 8. Exit of the program
     This option finishes the execution of the program.
