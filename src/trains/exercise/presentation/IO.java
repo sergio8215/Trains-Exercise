@@ -1,10 +1,12 @@
-package trains.exercise;
+package trains.exercise.presentation;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 
-import trains.exercise.exception.InvalidRouteException;
+import trains.exercise.domain.classes.Graph;
+import trains.exercise.domain.classes.Town;
+import trains.exercise.domain.exception.InvalidRouteException;
 
 public class IO {
 	

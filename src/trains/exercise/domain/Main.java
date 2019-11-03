@@ -1,4 +1,6 @@
-package trains.exercise;
+package trains.exercise.domain;
+
+import trains.exercise.domain.controller.Controller;
 
 public class Main {
 

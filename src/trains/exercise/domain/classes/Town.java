@@ -1,4 +1,4 @@
-package trains.exercise;
+package trains.exercise.domain.classes;
 
 public class Town {
 	private String name;

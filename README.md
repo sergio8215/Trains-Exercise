@@ -41,11 +41,11 @@ Output #5: NO SUCH ROUTE
     * Towns names are just 1 letter from a-z or A-Z
     * Towns doesn't have a route directly to the same town, example: AA
     * Routes must be minimum composed for 2 towns
-    * The weight of the rotes can't be a negative number
-    * 
+    * The weight of the routes have to be > 0
 
 ### First use:
-    * To execute the program you need to run the Main as a Java Application, it's at the route /Trains Exercise/src/trains/exercise/Main.java.
+    * To execute the program you need to run the Main as a Java Application,
+      it's at the route /Trains Exercise/src/trains/exercise/Main.java.
     * The first screen will show  a menu with this options
         0. Print the menu
         1. If you need help
@@ -56,28 +56,35 @@ Output #5: NO SUCH ROUTE
         6. Shortest route between two towns
         7. Exit
 
-##### Option 0. Print the menu
+#### Option 0. Print the menu
     Prints the menu
 
-##### Option 1.
+#### Option 1.
     Shows program helpful information
 
-##### Option 2. Introduce input graph data manually 
-    Option to introduce the graph information. The format is TownTownWeight, example: AB5. Each route is separated by , Example: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
+#### Option 2. Introduce input graph data manually 
+    Option to introduce the graph information. The format is TownTownWeight, 
+    example: AB5. Each route is separated by , Example: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
     All the routes should be written in the same line, after all routes are written you can press Enter.
 
-##### Option 3. Introduce input graph data with a file
-    Option to introduce the graph information. The format is TownTownWeight, example: AB5. Each route is separated by , Example: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
-    All the routes should be written in the same line of a .txt file. After selecting the option 3 you'll be ask for the absolute route of the file, example: C:\user\pepito\input.txt"
+#### Option 3. Introduce input graph data with a file
+    Option to introduce the graph information. The format is TownTownWeight,
+    example: AB5. Each route is separated by , Example: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
+    All the routes should be written in the same line of a .txt file. After
+    selecting the option 3 you'll be ask for the absolute route
+    of the file, example: C:\user\pepito\input.txt"
 
 #### Option 4. Calculate distance along route
-    Computes distance along a route, the format of the input is Town-Town-Town-Town, as many towns as you want, example. A-B-C-D-E
+    Computes distance along a route, the format of the input is
+    Town-Town-Town-Town, as many towns as you want, example. A-B-C-D-E
 
 #### Option 5. Number of different routes between two towns
-    Computes the number of different routes between two towns, the format of the input is TownTown, example. AB    
+    Computes the number of different routes between two towns,
+    the format of the input is TownTown, example. AB    
 
 #### Option 6. Shortest route between two towns
-    Computes the shortest route between two towns, the format of the input is TownTown, example. AB    
+    Computes the shortest route between two towns, the format of
+    the input is TownTown, example. AB    
 
 #### Option 7. Exist of the program
     This option finishes the execution of the program.

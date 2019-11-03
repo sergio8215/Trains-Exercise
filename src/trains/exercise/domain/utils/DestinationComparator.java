@@ -1,6 +1,8 @@
-package trains.exercise;
+package trains.exercise.domain.utils;
 
 import java.util.Comparator;
+
+import trains.exercise.domain.classes.Destination;
 
 public class DestinationComparator implements Comparator<Destination>{
 	

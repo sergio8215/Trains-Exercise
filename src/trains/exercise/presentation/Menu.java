@@ -1,11 +1,12 @@
-package trains.exercise;
+package trains.exercise.presentation;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-import trains.exercise.exception.DestinationAlreadyExistsException;
-import trains.exercise.exception.InvalidRouteException;
+import trains.exercise.domain.controller.Controller;
+import trains.exercise.domain.exception.DestinationAlreadyExistsException;
+import trains.exercise.domain.exception.InvalidRouteException;
 
 public class Menu {
 	
@@ -43,48 +44,58 @@ public class Menu {
 					System.out.println("Option 4. The input data should be with the format: town-town-town-town, ex: A-B-D-F");
 					System.out.println("Option 5. The input data should be with the format: TownTown, ex: AB");
 					System.out.println("Option 6. The input data should be with the format: TownTown, ex: AB");
-
+					System.out.println("Option 7. Exit");
 					break;
 				case 2:
 					System.out.println("Please insert the routes information: ");
 					c.generateGraph(IO.readGraphManual(s.nextLine()));
 					c.printGraph();
-					System.out.println("\n The graph have been generated successfully");
-					System.out.println("\n Press 0 to show the menu");
+					c.setGraphLoaded(true);
+					System.out.println("\nThe graph have been generated successfully");
 					break;
 				case 3:
 					System.out.println("Please enter fullpath of the file: ");
 					c.generateGraph(IO.readGraphFile(s.nextLine()));
 					c.printGraph();
-					System.out.println("\n The graph have been generated successfully");
-					System.out.println("\n Press 0 to show the menu");
+					c.setGraphLoaded(true);
+					System.out.println("\nThe graph have been generated successfully");
 					break;
 				case 4:
-					System.out.println("Please introduce the route to calculate the distance: ");
-					int distance = c.computeDistance(s.nextLine());
-					if (distance>0) {
-						System.out.println(distance);
-					}else{
-						System.out.println("NO SUCH ROUTE");
+					if(c.isGraphLoaded()) {
+						System.out.println("Please introduce the route to calculate the distance: ");
+						int distance = c.computeDistanceAndValidate(s.nextLine());
+						if (distance>0) {
+							System.out.println(distance);
+						}else{
+							System.out.println("NO SUCH ROUTE");
+						}
+					}else {
+						System.out.println("First you need to load the graph");
 					}
-					System.out.println("\n Press 0 to show the menu");
 					break;
 				case 5:
-					System.out.println("Please introduce the start town and destination town to calculate the number of routes: ");
+					if(c.isGraphLoaded()) {
+						System.out.println("Please introduce the start town and destination town to calculate the number of routes: ");
+					}else {
+						System.out.println("First you need to load the graph");
+					}
 					break;
 				case 6:
-					System.out.println("Please introduce the start town and destination town to calculate the shortest route:");
-					IO.printShortestPath(c.computeShortestRoute(s.nextLine()));
-					System.out.println("\n Press 0 to show the menu");
-                   	break;
+					if(c.isGraphLoaded()) {
+						System.out.println("Please introduce the start town and destination town to calculate the shortest route:");
+						IO.printShortestPath(c.computeShortestRouteAndValidate(s.nextLine()));
+					}else {
+						System.out.println("First you need to load the graph");
+					}
+				   	break;
 				case 7:
 					// Exit
 					break;
 				default:
 					System.err.println("That option doesn't exist, please select one option in the menu");
-					System.out.println("\n Press 0 to show the menu");
 					break;
 			}
+			System.out.println("\nPress 0 to show the menu");
 		}catch(NumberFormatException e){
 			System.err.println("The option it's not a number, please select one option within the menu");
 			printMenu();
@@ -107,11 +118,4 @@ public class Menu {
 		System.out.println("7. Exit" );
 	}
 	
-	private static void pressAnyKey() {
-		Scanner s = new Scanner(System.in);
-		try {
-			System.in.read();
-		} catch (IOException e) {}
-		s.close();
-	}
 }

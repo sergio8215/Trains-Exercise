@@ -1,4 +1,4 @@
-package trains.exercise.exception;
+package trains.exercise.domain.exception;
 
 public class TownAlreadyExistsException extends Exception {
 	

@@ -1,4 +1,4 @@
-package trains.exercise;
+package trains.exercise.domain.classes;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import trains.exercise.exception.DestinationAlreadyExistsException;
+import trains.exercise.domain.exception.DestinationAlreadyExistsException;
+import trains.exercise.presentation.IO;
 /**
  * Represents a directed graph, with nodes as towns and edges with weight
  * @author Sergio
@@ -75,18 +76,37 @@ public class Graph{
 				
 				}
 			}else {					
-				HashMap<String, Integer> destination = new HashMap<String, Integer>();
-				destination.put(end, weight);
-				graph.put( start, destination);
-				Destination d = new Destination(new Town(end),weight);
-				List<Destination> destinations = new ArrayList<Destination>();
-				destinations.add(d);
-				graphP.put(start, destinations );
-				minimumWeight.put(start, 0);
-				candidates.add(start);
-			
+				Town s = new Town(start);
+				Town e = new Town(end);
+				initializeDestinationsGraph(s,e,weight);
+				initializeDestinationsGraphP(s,e,weight);
 			}
 		}
+	}
+	
+	/**
+	 * Initialize list of destinations for a given town.
+	 * @param start town
+	 * @param end town
+	 * @param weight of the route
+	 */
+	private void initializeDestinationsGraphP(Town start, Town end, int weight){
+		Destination d = new Destination(end,weight);
+		List<Destination> destinations = new ArrayList<Destination>();
+		destinations.add(d);
+		graphP.put(start.getName(), destinations );
+	}
+	
+	/**
+	 * Initialize list of destinations for Dijkstra algorithm for a given town.
+	 * @param start town
+	 * @param end town
+	 * @param weight of the route
+	 */
+	private void initializeDestinationsGraph(Town start, Town end, int weight){
+		HashMap<String, Integer> destination = new HashMap<String, Integer>();
+		destination.put(end.getName(), weight);
+		graph.put( start.getName(), destination);
 	}
 	
 	/* Getters */
