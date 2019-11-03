@@ -1,6 +1,7 @@
 package trains.exercise;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import trains.exercise.exception.DestinationAlreadyExistsException;
@@ -27,9 +28,9 @@ public class Menu {
 							"distance of 5 is represented as AB5.\r\n" + 
 							"\r\n" + 
 							"Example Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7\r\n");
-					System.out.println("If you want to introduce the data with an input file, you need to write the Graph in one line separating the routes with coma ',' as the example. You'll be ask for the absolute route of the file, example: C:\\user\\pepito\\input.txt");
-					System.out.println("If you want to introduce the data manually, you can write the Graph in one line separating the routes with coma ','.");
-					System.out.println("4. The input data should be with the format: town-town-town-town, ex: A-B-D-F");
+					System.out.println("Option 2. If you want to introduce the data with an input file, you need to write the Graph in one line separating the routes with coma ',' as the example. You'll be ask for the absolute route of the file, example: C:\\user\\pepito\\input.txt");
+					System.out.println("Option 3. If you want to introduce the data manually, you can write the Graph in one line separating the routes with coma ','.");
+					System.out.println("Option 4. The input data should be with the format: town-town-town-town, ex: A-B-D-F");
 					break;
 				case 2:
 					System.out.println("Please insert the routes information: ");
@@ -51,7 +52,8 @@ public class Menu {
 					}else{
 						System.out.println("NO SUCH ROUTE");
 					}
-					
+					System.out.println("\n Please press one key to continue");
+                   	pressAnyKey();
 					printMenu();
 					break;
 				case 5:
@@ -59,6 +61,10 @@ public class Menu {
 					break;
 				case 6:
 					System.out.println("Please introduce the start town and destination town to calculate the shortest route:");
+					c.computeShortestRoute(s.nextLine());
+					System.out.println("\n Please press one key to continue");
+                   	pressAnyKey();
+					printMenu();
 					break;
 				case 7:
 					// Exit
@@ -85,5 +91,13 @@ public class Menu {
 		System.out.println("5. Number of different routes between two towns" );
 		System.out.println("6. Shortest route between two towns" );
 		System.out.println("7. Exit" );
+	}
+	
+	private static void pressAnyKey() {
+		Scanner s = new Scanner(System.in);
+		try {
+			System.in.read();
+		} catch (IOException e) {}
+		s.close();
 	}
 }

@@ -37,10 +37,10 @@ public class IO {
 		int size = graph.getGraph().size();
 		int i = 1;
 		
-		for( Character start: graph.getGraph().keySet() ) {
-			for( Character end : graph.getGraph().get(start).keySet() ) {
+		for( String start: graph.getGraph().keySet() ) {
+			for( String end : graph.getGraph().get(start).keySet() ) {
 				int weight = graph.getGraph().get(start).get(end) ;
-				String print = String.valueOf(start) + String.valueOf(end) + String.valueOf(weight);
+				String print = start + end + String.valueOf(weight);
 				System.out.print( print );
 				if (i < size) System.out.print( ", " );
 			}
@@ -66,11 +66,24 @@ public class IO {
 	   return townsList;
 	}
 	
-	public static Character getStart(String town){
-		return town.charAt(0);
+	public static String[] validateShortestRoute(String in) throws IllegalArgumentException, InvalidRouteException {
+		String[] towns = in.toUpperCase().split("");
+	
+		if( towns.length == 2 ) {
+			validateTown(towns[0]);
+			validateTown(towns[1]);
+		}else {
+			throw new InvalidRouteException("To compute distance, the entry should be 2 towns");
+		}
+	   return towns;
 	}
-	public static Character getEnd(String town){
-		return town.charAt(1);
+	
+	
+	public static String getStart(String town){
+		return Character.toString(town.charAt(0));
+	}
+	public static String getEnd(String town){
+		return Character.toString(town.charAt(1));
 	}
 	public static int getWeigth(String weight){
 		return Character.getNumericValue(weight.charAt(2));
@@ -78,7 +91,7 @@ public class IO {
 	
 	public static boolean validateTown( String town ) throws InvalidRouteException, IllegalArgumentException{
 		if (town.length() == 1&&isLetter(town.charAt(0))) return  true;
-		throw new InvalidRouteException("The town name '"+town+"' is invalid, please use the format LetterLetter, ex: AB");
+		throw new InvalidRouteException("The town name '"+town+"' is invalid");
 	}
 	
 	public static boolean validateData( String data ) throws InvalidRouteException{

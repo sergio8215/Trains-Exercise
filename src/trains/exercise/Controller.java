@@ -1,11 +1,15 @@
 package trains.exercise;
 
 import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.PriorityQueue;
 
 import trains.exercise.exception.DestinationAlreadyExistsException;
 import trains.exercise.exception.InvalidRouteException;
 
 public class Controller {
+	
+	private final int INFINITY = 999999;
 	
 	private Graph graph;
 
@@ -65,6 +69,52 @@ public class Controller {
 		}
 		return distance;
 		
+	}
+	
+	public List<String> computeShortestRoute(String in) throws IllegalArgumentException, DestinationAlreadyExistsException, InvalidRouteException  {
+		
+		String[] towns = IO.validateShortestRoute(in);
+		Town start = new Town(towns[0]);
+		Town end =  new Town(towns[1]);
+		
+		// Initialize all distances to infinity
+		graph.getMinimumWeight().entrySet().forEach(entry-> {
+			entry.setValue(INFINITY);
+		});
+	
+		Destination dest = new Destination(start, 0);
+		graph.getGraphP().get(start.getName()).add(dest);
+		graph.getMinimumWeight().put(start.getName(), 0);
+		Town v = start;
+		
+		while( graph.getCandidates().size() != 0 ) {
+			
+			Destination u = graph.getGraphP().get(v.getName()).poll();
+			graph.getCandidates().remove(u.getTown().getName());
+			
+			for( int i=0; i< graph.getGraphP().get(u.getTown().getName()).size(); i++) {
+				
+				int w = u.getWeight();
+				
+				if( graph.getMinimumWeight().get(u.getTown().getName()) == INFINITY ){
+					graph.getMinimumWeight().put(u.getTown().getName(), w);
+					graph.getSucesors().put(u.getTown().getName(), v);
+				
+				}else {
+					w += graph.getMinimumWeight().get(u.getTown().getName());
+					
+					if( w < graph.getMinimumWeight().get(u.getTown().getName())) {
+						graph.getMinimumWeight().put(u.getTown().getName(), w);
+						graph.getSucesors().put(u.getTown().getName(), v);
+					}
+				}
+			}
+			
+			graph.getVisited().add(u.getTown().getName());
+		}
+		
+		System.out.println("R= " + graph.getSucesors().get(start.getName()).toString());
+		return null;
 	}
 	
 	public void generateGraph(String[] in) throws IllegalArgumentException, DestinationAlreadyExistsException {
