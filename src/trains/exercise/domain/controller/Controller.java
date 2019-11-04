@@ -179,9 +179,12 @@ public class Controller {
 	 * @return number of different routes between two towns
 	 */
 	public int numberDifferentRoutes(Town start, Town destination) {
-		intializeDifferentRoutesStructures(start);
-		
-		return numberDifferentRoutesRec(start, destination); 
+		intializeDifferentRoutesStructures();
+		int result = 0;
+		if( visitedDFS.containsKey(start.getName()) ) {
+			result = numberDifferentRoutesRec(start, destination); 			
+		}
+		return result;
 	}
 	
 	/**
@@ -215,7 +218,7 @@ public class Controller {
 	/**
 	 * Initialize all necessary DFS structures
 	 */
-	private void intializeDifferentRoutesStructures(Town start) {
+	private void intializeDifferentRoutesStructures() {
 		visitedDFS = new HashMap<String, Boolean>();
 		
 		for( String k: graph.getGraph().keySet() ) {

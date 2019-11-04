@@ -45,8 +45,9 @@ public class Menu {
 					System.out.println("Option 5. The input data should be with the format: TownTown, ex: AB");
 					System.out.println("Option 6. The input data should be with the format: TownTown, ex: AB");
 					System.out.println("Option 7. Test the distance along certain path, the format of the file should be, one line the path, next line expected answer, can be more than one test. In the same file.");
-					System.out.println("Option 8. Test the shortest path between two towns, the format of the file should be, one line the path, next line expected answer, can be more than one test. In the same file.");
-					System.out.println("Option 9. Exit");
+					System.out.println("Option 8. Test the number of different routes between two towns. , the format of the file should be, one line the path, next line expected answer, can be more than one test. In the same file.");
+					System.out.println("Option 9. Test the numbershortest path between two towns, the format of the file should be, one line the path, next line expected answer, can be more than one test. In the same file.");
+					System.out.println("Option 10. Exit");
 					break;
 				case 2:
 					System.out.println("Please insert the routes information: ");
@@ -101,7 +102,7 @@ public class Menu {
 					break;
 				case 8:
 					if(c.isGraphLoaded()) {
-						System.out.println("Test the shortest path between two towns. First line of the file the input, second line expected output ");
+						System.out.println("Test the number of different routes between two towns. First line of the file the input, second line expected output ");
 						System.out.println("Please enter fullpath of the file: ");
 						ControllerTest ct = new ControllerTest();
 						ct.readTestFileNumberDifferentRoutes(s.nextLine(), c);
@@ -112,7 +113,7 @@ public class Menu {
 					break;
 				case 9:
 					if(c.isGraphLoaded()) {
-						System.out.println("Test the number of different routes between two towns. First line of the file the input, second line expected output ");
+						System.out.println("Test the shortest path between two towns. First line of the file the input, second line expected output ");
 						System.out.println("Please enter fullpath of the file: ");
 						ControllerTest ct = new ControllerTest();
 						ct.readTestFilecomputeShortestRoute(s.nextLine(), c);

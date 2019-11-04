@@ -7,6 +7,6 @@ DC
 DB
 1
 DA
-0
+There is no possible route
 AC
 2

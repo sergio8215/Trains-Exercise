@@ -121,7 +121,7 @@ public class ControllerTest {
 	public boolean numberDifferentRoutesAndValidateTest( String in, String out, Controller c ) {
 		boolean result = false;
 		try {
-			result = String.valueOf(c.numberDifferentRoutesAndValidate(in)).equals(out);
+			result = toStringNumberDifferentRoutes(c.numberDifferentRoutesAndValidate(in)).equals(out);
 		} catch (IllegalArgumentException | InvalidRouteException e) {}
 		
 		return result;
@@ -150,4 +150,17 @@ public class ControllerTest {
 	    s.close();
 	  } 
 	
+	/**
+	 * To string the shortest route between two towns
+	 * @param sp route of towns 
+	 */
+	public static String toStringNumberDifferentRoutes(int routes) {
+		StringBuilder sb =  new StringBuilder();
+		if ( routes>0 ) {
+			sb.append(String.valueOf(routes));			
+		}else {
+			sb.append("There is no possible route");
+		}
+		return sb.toString();
+	}
 }
