@@ -43,6 +43,9 @@ public class Controller {
 	private Map<String,Integer> ndfs;
 	private Map<String,Integer> ninv;
 	
+	private Map<String,List<Town>> treeEdges;
+	private Map<String,List<Town>> backEdges;
+	
 	private List<CC> Cc; // Connected components 
 	private int num_dfs;
 	private int num_inv;
@@ -194,13 +197,10 @@ public class Controller {
 	 */
 	public int numberDifferentRoutes(Town start, Town end) {
 		intializeDifferentRoutesStructures(start);
-		int i = 0;
-		Visited visited;
-		Iterator<Visited> it = visitedDFS. .iterator();
-		while(it.hasNext()) {
-			visited = it.next();
-			if( !visited.isVisited() ) {
-				numberDifferentRoutesRec(visited , 0, end);		
+		
+		for(String town: visitedDFS.keySet()) {
+			if( !visitedDFS.get(town) ) {
+				numberDifferentRoutesRec(town ,town, end);		
 			}
 		}
 		
@@ -212,31 +212,33 @@ public class Controller {
 	 * @param i
 	 * @return
 	 */
-	private void numberDifferentRoutesRec(Visited visited, int father, Town end) {
+	private void numberDifferentRoutesRec(String visited, String father, Town end) {
 		// PRE-Visit(v)
 		num_dfs += 1;
-		System.out.println("V: "+act.getTown().getName());
+		System.out.println("V: "+visited);
+		visitedDFS.put(visited,true);	
+		ndfs.put(visited,num_dfs);
 		// If my neighbor is the end, we count the path
-		if( !isNeighborEqualsEnd(visited.getTown(), end) ) {
-			visited.setVisited(true);	
-			ndfs.get(visited.getTown()).setValue(num_dfs);
+		if( !isNeighborEqualsEnd(visited, end) ) {
 		}else {
 			nroutes++;
 		}			
 		
-		for( int neighbor=0; neighbor < getNeighborTowns(act.getTown()).size(); neighbor++ ) {
+		for( Town neighbor: getNeighborTowns(visited) ) {
 				
-				if ( !visitedDFS.get(neighbor).isVisited() ) {
+				if ( !visitedDFS.get(neighbor.getName()) ) {
+					treeEdges.get(visited).add(neighbor);
 					// PRE-Visit-edge(v,w)
-					numberDifferentRoutesRec(neighbor, position, end);
+					numberDifferentRoutesRec(neighbor.getName(), visited, end);
 					// POST-Visit-edge(v,w)
-				}else {
-					if( neighbor != position ) System.out.println("There is a cicle");
+				}else if( !neighbor.getName().equals(visited)) {
+					backEdges.get(visited).add(neighbor);
+					System.out.println("There is a cicle");
 				}
 		}
 		// POST-VIST(v)
 		num_inv++;
-		ninv.get(position).setValue(num_inv);
+		ninv.put(visited,num_inv);
 	}
 	
 	/**
@@ -244,40 +246,36 @@ public class Controller {
 	 * @param town
 	 * @return list of neighbor towns
 	 */
-	private List<Town> getNeighborTowns( Town town ){
-		return graph.getGraphDFS().get(town.getName());
+	private List<Town> getNeighborTowns( String town ){
+		return graph.getGraphDFS().get(town);
 	}
 	
-	private boolean isNeighborEqualsEnd( Town n, Town end) {
-		return n.getName().equals(end.getName());
+	private boolean isNeighborEqualsEnd( String n, Town end) {
+		return n.equals(end.getName());
 	}
 	
 	/**
 	 * Initialize all necessary DFS structures
 	 */
 	private void intializeDifferentRoutesStructures(Town start) {
-		visitedDFS = new HashMap<Visited>();
-		ndfs = new HashMap<DFSNumber>();
-		ninv = new HashMap<InverseNumber>();
-		Cc = new ArrayList<CC>();
+		visitedDFS = new HashMap<String, Boolean>();
+		ndfs = new HashMap<String, Integer>();
+		ninv = new HashMap<String, Integer>();
+		
+		treeEdges = new HashMap<String, List<Town>>();
+		backEdges = new HashMap<String, List<Town>>();
+		
 		num_dfs = 0;
 		num_inv = 0;
-		ncc = 0;
 		nroutes = 0;
 		
-		visitedDFS.add(new Visited(start, false));
-		ndfs.add(new DFSNumber(start, 0));
-		ninv.add(new InverseNumber(start, 0));
-		Cc.add(new CC(start, 0));
-		
 		for( String k: graph.getGraph().keySet() ) {
-			if( !k.equals(start.getName()) ) {
-				Town town = new Town(k);
-				visitedDFS.add(new Visited(town, false));
-				ndfs.add(new DFSNumber(town, 0));
-				ninv.add(new InverseNumber(town, 0));
-				Cc.add(new CC(town, 0));
-			}
+			visitedDFS.put(k, false);
+			ndfs.put(k, 0);
+			ninv.put(k, 0);
+			
+			treeEdges.put(k, new ArrayList<Town>());
+			backEdges.put(k, new ArrayList<Town>());
 		}
 	}
 	
