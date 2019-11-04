@@ -60,8 +60,9 @@ Output #5: NO SUCH ROUTE
         5. Number of different routes between two towns
         6. Shortest route between two towns
         7. Test the distance between two towns along a certain path
-        8. Test the shortest path between two towns
-        9. Exit
+        8. Test number of different routes between two towns
+        9. Test the shortest path between two towns
+        10. Exit
 
 #### Option 0. Print the menu
     Prints the menu
@@ -131,23 +132,23 @@ Output #5: NO SUCH ROUTE
     The result of the test will be True in case the result == expected output,
     false otherwise. The test will run as many lines/2 the file has.
 
-#### Option 9. Exit of the program
+#### Option 10. Exit of the program
     This option finishes the execution of the program.
 
 ## Given graphs
-At the path \Trains Exercise\files\graph you'll find two input graph files.
+    At the path \Trains Exercise\files\graph you'll find two input graph files.
 
-Graph1
-![alt text](https://raw.githubusercontent.com/sergio8215/Trains-Exercise/tree/master/files/img/graph1.png)
+    Graph1
+    ![alt text](https://raw.githubusercontent.com/sergio8215/Trains-Exercise/master/files/img/graph1.png)
 
-Graph2
-![alt text](https://raw.githubusercontent.com/sergio8215/Trains-Exercise/tree/master/files/img/graph2.png)
+    Graph2
+    ![alt text](https://raw.githubusercontent.com/sergio8215/Trains-Exercise/master/files/img/graph2.png)
 
 ## Given test Files
-At the path \Trains Exercise\files\testFiles you'll find 6 test files, 3 for each graph
-testDistanceGraph1.txt
-testShortestPathGraph1.txt
-testNumberDifferentRoutesGraph1.txt
-testDistanceGraph2.txt
-testShortestPathGraph2.txt
-testNumberDifferentRoutesGraph2.txt
+    At the path \Trains Exercise\files\testFiles you'll find 6 test files, 3 for each graph
+    testDistanceGraph1.txt
+    testShortestPathGraph1.txt
+    testNumberDifferentRoutesGraph1.txt
+    testDistanceGraph2.txt
+    testShortestPathGraph2.txt
+    testNumberDifferentRoutesGraph2.txt
