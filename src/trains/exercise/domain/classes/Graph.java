@@ -1,10 +1,8 @@
 package trains.exercise.domain.classes;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import trains.exercise.domain.exception.DestinationAlreadyExistsException;
 import trains.exercise.presentation.IO;
@@ -21,21 +19,12 @@ public class Graph{
 	// Compute shortest distance
 	private Map<String, List<Destination> > graphP;
 	
-	// Number of different routes between two towns
-	private List<Boolean> visitedDFS;
-	private List<Integer> ndfs;
-	private List<Integer> ninv;
-	private int num_dfs = 0;
-	private int num_inv = 0;
-
 	/**
 	 * Empty constructor method
 	 */
 	public Graph() {
-		
 		graph = new HashMap<String, Map<String, Integer> >();
 		graphP = new HashMap<String, List<Destination> >();
-
 	}
 	
 
@@ -57,14 +46,15 @@ public class Graph{
 			// If the start city already exists, we add the new destination
 			if( graph.containsKey(start) ){
 				
-				// If the destination doesn't exists yet, we add it
+				// If the destination doesn't exist, we add it
 				if( !graph.get(start).containsKey(end) ) {
 					graph.get(start).put( end, weight );
 					Destination d = new Destination(new Town(end),weight);
 					graphP.get(start).add(d);
 					
 				}else {
-					throw new DestinationAlreadyExistsException( "The route '" + IO.getStart(route) + IO.getEnd(route) + "' already exists");
+					throw new DestinationAlreadyExistsException(
+							"The route '" + IO.getStart(route) + IO.getEnd(route) + "' already exists");
 				
 				}
 			}else {					
@@ -77,7 +67,7 @@ public class Graph{
 	}
 	
 	/**
-	 * Initialize list of destinations for a given town.
+	 * Initialize graph with list of destinations for a given town.
 	 * @param start town
 	 * @param end town
 	 * @param weight of the route
@@ -90,7 +80,7 @@ public class Graph{
 	}
 	
 	/**
-	 * Initialize list of destinations for Dijkstra algorithm for a given town.
+	 * Initialize list of destination for a given town tree way.
 	 * @param start town
 	 * @param end town
 	 * @param weight of the route
@@ -109,24 +99,4 @@ public class Graph{
 	public Map<String, Map<String, Integer> > getGraph(){
 		return graph;
 	}
-
-	public List<Boolean> getVisitedDFS() {
-		return visitedDFS;
-	}
-
-	public List<Integer> getNdfs() {
-		return ndfs;
-	}
-
-	public List<Integer> getNinv() {
-		return ninv;
-	}
-
-	public int getNum_dfs() {
-		return num_dfs;
-	}
-
-	public int getNum_inv() {
-		return num_inv;
-	}	
 }

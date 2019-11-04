@@ -34,6 +34,7 @@ Output #5: NO SUCH ROUTE
 ## Instructions of use
 
 ### Technology used: 
+    * Windows 10 64 bits
     * JavaSE 1.8
     * Eclipse 2019-09 R (4.13.0)
 
@@ -45,6 +46,7 @@ Output #5: NO SUCH ROUTE
     * The weight of the track must be > 0
     * A given track will never appear more than once
     * When searching for path, only simple path will be considered
+    * When testing, this will run on the last graph given
 
 ### First use:
     * To execute the program you need to run the Main as a Java Application,
@@ -91,5 +93,25 @@ Output #5: NO SUCH ROUTE
     Computes the shortest route between two towns, the format of
     the input is TownTown, example: AB    
 
-#### Option 8. Exit of the program
+#### Option 7. Test distance along route
+    For the test, the input file should be with the format of first line input, second line expected output:
+    A-B-C
+    9
+    B-C
+    6
+    You can do more than one test with the same input file.
+    You'll be asked to introduce the full path of the test file.
+    The result of the test will be True in case the result == expected output, false otherwise. The test will run as many lines/2 the file has.
+
+#### Option 8. Test shortest path between two towns
+    For the test, the input file should be with the format of first line input, second line expected output:
+    A-B-C
+    9
+    B-C
+    6
+    You can do more than one test with the same input file.
+    You'll be asked to introduce the full path of the test file.
+    The result of the test will be True in case the result == expected output, false otherwise. The test will run as many lines/2 the file has.
+
+#### Option 9. Exit of the program
     This option finishes the execution of the program.

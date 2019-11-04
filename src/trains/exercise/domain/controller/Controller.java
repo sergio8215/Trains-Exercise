@@ -32,15 +32,22 @@ public class Controller {
 	private Set<String> candidates;
 	private Set<String> visited;
 
+	// Number of different routes between two towns
+	private List<Boolean> visitedDFS;
+	private List<Integer> ndfs;
+	private List<Integer> ninv;
+	private int num_dfs = 0;
+	private int num_inv = 0;
+	
 	/**
 	 * Empty constructor
 	 * @param graph
 	 */
 	public Controller() {
 		this.graph = new Graph();
-		wasDijkstraExecuted = false;
 		graphLoaded = false;
 		startDijkstra = null;
+		wasDijkstraExecuted = false;
 		minimumWeight = new HashMap<String, Integer>();
 		predecessor = new HashMap<String, Town>();
 		candidates = new HashSet<String>();
@@ -80,15 +87,22 @@ public class Controller {
 	/**
 	 * Validates the input and compute the distance between two towns along a certain path 
 	 * @param in path to compute distance
-	 * @return Calculated distance or NO SUCH ROUTE if the path doesn't exist
+	 * @return Calculated distance or -1 if the path doesn't exist
 	 * @throws IllegalArgumentException wrong city name
 	 * @throws DestinationAlreadyExistsException Town already exist
 	 * @throws InvalidRouteException Invalid route to compute
 	 */
-	public int computeDistanceAndValidate(String in) throws
+	public String computeDistanceAndValidate(String in) throws
 			IllegalArgumentException, DestinationAlreadyExistsException, InvalidRouteException  {
 		String[] townsList = IO.readRoute(in);
-		return computeDistance(townsList);
+		int computedDistance = computeDistance(townsList);
+		String result = "";
+		if ( computedDistance < 0 ) {
+			result = "NO SUCH ROUTE";	
+		}else {
+			result = String.valueOf(computedDistance);
+		}
+		return result;
 	}
 	
 	/**
@@ -120,7 +134,7 @@ public class Controller {
 	/**
 	 * Check if town exists in the graph
 	 * @param town
-	 * @return
+	 * @return true if the graph contains the town
 	 */
 	private boolean containsTown(String town){
 		return graph.getGraph().
@@ -130,7 +144,7 @@ public class Controller {
 	/**
 	 * Gets town routes from the graph
 	 * @param town
-	 * @return
+	 * @return A map with all the destinations of the given town
 	 */
 	private Map<String,Integer> getTown(String town) {
 		return graph.getGraph().
@@ -140,7 +154,7 @@ public class Controller {
 	/**
 	 * Check if a destination town exists in the graph
 	 * @param town
-	 * @return
+	 * @return true if the destination exist for a given town
 	 */
 	private boolean containsDestinationTown(String townStart, String townEnd){
 		return getTown(townStart).containsKey(townEnd);
@@ -206,7 +220,7 @@ public class Controller {
 	}
 	
 	/**
-	 * Compute a path with minimum distance between two towns
+	 * Compute a path with minimum distance between two towns, the result is the predecessors list
 	 * @param start
 	 * @throws IllegalArgumentException
 	 * @throws DestinationAlreadyExistsException
@@ -245,7 +259,7 @@ public class Controller {
 	 * @param cand
 	 */
 	private void updateMinimumWeight( Destination neighbor, Candidate cand ) {
-		
+		// Candidate is always the minimum path to this point 
 		int w = minimumWeight.get(cand.getTown().getName()) + neighbor.getWeight();
 			
 		if( w < minimumWeight.get(neighbor.getTown().getName())) {
@@ -255,6 +269,11 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Check if the start city is the same that the last dijkstra run, to save calculate it again
+	 * @param start
+	 * @return true if is the same start city
+	 */
 	private boolean isSameStartCity(Town start) {
 		return startDijkstra.getName().equals(start.getName());
 	}
@@ -278,7 +297,7 @@ public class Controller {
 	
 	/**
 	 * Gets the candidate with minimum weight
-	 * @return candidate
+	 * @return candidate with minimum weight
 	 */
 	private Candidate getMinimumCand( ) {
 		int minimum = INFINITY+1;
@@ -299,27 +318,27 @@ public class Controller {
 	 * Creates the route from one town to other, with the predecessors list
 	 * @param start point
 	 * @param end point
-	 * @return Ordered list with the route
+	 * @return Ordered list with the shortest route between two towns
 	 */
 	private List<Town> shortestRoute(Town start, Town end ){
 		List<Town> result = new ArrayList<Town>();
-		Town sucesor = predecessor.get(end.getName());
+		Town predecessorTown = predecessor.get(end.getName());
 		result.add(end);
 		
-		if(sucesor != null) {			
-			result.add(sucesor);
-			while( !(sucesor.getName()).equals(start.getName()) ) {
+		if(predecessorTown != null) {			
+			result.add(predecessorTown);
+			while( !(predecessorTown.getName()).equals(start.getName()) ) {
 				
-				sucesor = predecessor.get(sucesor.getName());
-				result.add(sucesor);
+				predecessorTown = predecessor.get(predecessorTown.getName());
+				result.add(predecessorTown);
 			}
 		}
 		return result;
 	}
 	
 	/**
-	 * Call necessary method to generate a graph
-	 * @param in list of towns
+	 * Call graph method to generate a graph
+	 * @param in - list of towns
 	 * @throws IllegalArgumentException
 	 * @throws DestinationAlreadyExistsException
 	 */

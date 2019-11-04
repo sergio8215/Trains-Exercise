@@ -5,24 +5,12 @@ package trains.exercise.domain.classes;
 	 * @author Sergio
 	 *
 	 */
-public class Candidate {
-	private Town town;
-	private int weight;
-	
+public class Candidate extends Route{
 	/**
 	 * @param name
 	 * @param weight
 	 */
 	public Candidate(Town town, int weight) {
-		this.town = town;
-		this.weight = weight;
-	}
-	
-	public Town getTown() {
-		return town;
-	}
-
-	public int getWeight() {
-		return weight;
+		super(town, weight);
 	}
 }

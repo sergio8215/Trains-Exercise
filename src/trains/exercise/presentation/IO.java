@@ -12,16 +12,15 @@ public class IO {
 	
 	/**
 	 * Reads a file line and validates the information
-	 * @param fileName
-	 * @return
+	 * @param fileName to read
+	 * @return list of town names
 	 * @throws FileNotFoundException
 	 * @throws IllegalArgumentException
 	 * @throws InvalidRouteException
 	 */
 	public static String[] readGraphFile( String fileName ) throws FileNotFoundException, IllegalArgumentException, InvalidRouteException{
 	    
-		// TODO: pass the path to the file as a parameter
-		File file = new File("C:\\Users\\Sergio\\eclipse-workspace\\Trains Exercise\\files\\input.txt"); 
+		File file = new File(fileName); 
 	    Scanner s = new Scanner(file); 
 	    
     	String in = s.nextLine();
@@ -36,8 +35,8 @@ public class IO {
 		
 	/**
 	 * Reads graph information from the console line
-	 * @param in
-	 * @return
+	 * @param in - input from the console line
+	 * @return list of town names
 	 * @throws IllegalArgumentException
 	 * @throws IllegalArgumentException
 	 * @throws InvalidRouteException
@@ -46,24 +45,21 @@ public class IO {
 		
     	String[] parts = in.toUpperCase().split("\\s+|,\\s*");
         for( String route: parts ) IO.validateData(route);
-		
 		return parts;
 	}
 	
 	/**
-	 * Prints a graph
+	 * Prints a given graph with the format TownTownWeight,TownTownWeight
 	 * @param graph
 	 */
 	public static void printGraph( Graph graph ){
-		
 		int size = graph.getGraph().size();
 		int i = 1;
-		
+		int weight = 0;
 		for( String start: graph.getGraph().keySet() ) {
 			for( String end : graph.getGraph().get(start).keySet() ) {
-				int weight = graph.getGraph().get(start).get(end) ;
-				String print = start + end + String.valueOf(weight);
-				System.out.print( print );
+				weight = graph.getGraph().get(start).get(end) ;
+				System.out.print( start + end + String.valueOf(weight) );
 				if (i < size) System.out.print( ", " );
 			}
 			i++;
@@ -96,7 +92,8 @@ public class IO {
 	 * @throws InvalidRouteException  invalid town name in the route given
 	 * @throws IllegalArgumentException invalid character
 	 */
-	public static String[] readRoute(String towns) throws IllegalArgumentException, InvalidRouteException {
+	public static String[] readRoute(String towns) throws
+		IllegalArgumentException, InvalidRouteException {
 		String[] townsList = towns.toUpperCase().split("\\s+|-\\s*");
 		if( townsList.length>1 ) {
 			for ( String town: townsList ) validateTown(town);
@@ -135,6 +132,7 @@ public class IO {
 	public static String getStart(String town){
 		return Character.toString(town.charAt(0));
 	}
+	
 	/**
 	 * Gets the end town
 	 * @param town
@@ -154,9 +152,9 @@ public class IO {
 	}
 	
 	/**
-	 * Validates the town format
+	 * Validates that the town format is one letter a-z or A-Z
 	 * @param town
-	 * @return
+	 * @return true if the format is correct
 	 * @throws InvalidRouteException
 	 * @throws IllegalArgumentException
 	 */
@@ -168,7 +166,7 @@ public class IO {
 	/**
 	 * Validates the origin town, destination town and weight are with correct format
 	 * @param data
-	 * @return
+	 * @return true if the format is correct
 	 * @throws InvalidRouteException
 	 */
 	public static boolean validateData( String data ) throws InvalidRouteException{
@@ -181,7 +179,7 @@ public class IO {
 	/**
 	 * Validates the input is a letter
 	 * @param s
-	 * @return
+	 * @return true if is a letter a-z A-Z
 	 */
 	private static boolean isLetter( char s ){
 		if ( Character.isLetter(s)) return true; 
@@ -191,7 +189,7 @@ public class IO {
 	/**
 	 * Validates the input as a number
 	 * @param i
-	 * @return
+	 * @return true if is a number
 	 */
 	private static boolean isNumber( char i ) {
 		if ( Character.isDigit(i) ) return true; 
@@ -202,7 +200,7 @@ public class IO {
 	 * Validates that the route it is not the same start and end
 	 * @param s
 	 * @param d
-	 * @return
+	 * @return true if is not a loop route
 	 */
 	private static boolean isNotLoopRoute( String s, String d ) {
 		if ( !s.equals(d) ) return true; 

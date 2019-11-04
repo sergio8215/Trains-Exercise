@@ -1,7 +1,6 @@
 package trains.exercise.presentation;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
 
 import trains.exercise.domain.controller.Controller;
@@ -66,19 +65,17 @@ public class Menu {
 				case 4:
 					if(c.isGraphLoaded()) {
 						System.out.println("Please introduce the route to calculate the distance: ");
-						int distance = c.computeDistanceAndValidate(s.nextLine());
-						if (distance>0) {
-							System.out.println(distance);
-						}else{
-							System.out.println("NO SUCH ROUTE");
-						}
+						String result = c.computeDistanceAndValidate(s.nextLine());
+							System.out.println(result);
+						
 					}else {
 						System.out.println("First you need to load the graph");
 					}
 					break;
 				case 5:
 					if(c.isGraphLoaded()) {
-						System.out.println("Please introduce the start town and destination town to calculate the number of routes: ");
+						//System.out.println("Please introduce the start town and destination town to calculate the number of routes: ");
+						System.out.println("Option not available");
 					}else {
 						System.out.println("First you need to load the graph");
 					}

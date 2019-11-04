@@ -12,15 +12,31 @@ import trains.exercise.domain.exception.InvalidRouteException;
 
 public class ControllerTest {
 	
+	/**
+	 * Test the computation of distance between two towns
+	 * @param in
+	 * @param out
+	 * @param c
+	 * @return true when the the output is as expected
+	 */
 	public boolean computeDistanceAndValidateTest( String in, String out, Controller c ) {
 		boolean result = false;
 		try {
-			result = String.valueOf(c.computeDistanceAndValidate(in)).equals(out);
+			result = (c.computeDistanceAndValidate(in)).equals(out);
 		} catch (IllegalArgumentException | DestinationAlreadyExistsException | InvalidRouteException e) {}
 		return result;
 	}
 	
-	public void readTestFileComputeDistance( String fileName, Controller c ) throws FileNotFoundException, IllegalArgumentException, InvalidRouteException{
+	/**
+	 * Reads the input file and execute the distance between two town test
+	 * @param fileName
+	 * @param c
+	 * @throws FileNotFoundException
+	 * @throws IllegalArgumentException
+	 * @throws InvalidRouteException
+	 */
+	public void readTestFileComputeDistance( String fileName, Controller c ) throws
+		FileNotFoundException, IllegalArgumentException, InvalidRouteException{
 	    
 		File file = new File(fileName); 
 	    Scanner s = new Scanner(file);
@@ -34,18 +50,32 @@ public class ControllerTest {
 	    s.close();
 	  } 
 	
+	/**
+	 * Test computation of shortest route
+	 * @param in
+	 * @param out
+	 * @param c
+	 * @return true when the the output is as expected
+	 */
 	public boolean computeShortestRouteAndValidateTest( String in, String out, Controller c ) {
 		boolean result = false;
 		try {
-			
-			result = printShortestPathTest(c.computeShortestRouteAndValidate(in)).equals(out);
+			result = toStringShortestPathTest(c.computeShortestRouteAndValidate(in)).equals(out);
 		} catch (IllegalArgumentException | DestinationAlreadyExistsException | InvalidRouteException
 				| CloneNotSupportedException e) {}
 		return result;
 	}
 	
-	
-	public void readTestFilecomputeShortestRoute( String fileName, Controller c ) throws FileNotFoundException, IllegalArgumentException, InvalidRouteException{
+	/**
+	 * Reads the input file and execute the test
+	 * @param fileName
+	 * @param c
+	 * @throws FileNotFoundException
+	 * @throws IllegalArgumentException
+	 * @throws InvalidRouteException
+	 */
+	public void readTestFilecomputeShortestRoute( String fileName, Controller c ) throws
+		FileNotFoundException, IllegalArgumentException, InvalidRouteException{
 	    
 		File file = new File(fileName); 
 	    Scanner s = new Scanner(file);
@@ -59,16 +89,20 @@ public class ControllerTest {
 	    s.close();
 	  } 
 	
-
-	public String printShortestPathTest(List<Town> sp) {
-		int size = sp.size();
+	/**
+	 * Transform the output to string
+	 * @param towns
+	 * @return the output as a string
+	 */
+	public String toStringShortestPathTest(List<Town> towns) {
+		int size = towns.size();
 		StringBuilder sb = new StringBuilder();
 		if ( size>1 ) {
 			for( int i = 1; i <= size; i++) {
 				if( i != size ) {
-					sb.append(sp.get(size-i).getName()+"-" );
+					sb.append(towns.get(size-i).getName()+"-" );
 				}else {
-					sb.append(( sp.get(size-i).getName()));
+					sb.append(( towns.get(size-i).getName()));
 				} 
 			}			
 		}else {
@@ -76,5 +110,4 @@ public class ControllerTest {
 		}
 		return sb.toString();
 	}
-	
 }
