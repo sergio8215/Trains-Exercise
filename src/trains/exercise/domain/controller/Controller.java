@@ -74,16 +74,16 @@ public class Controller {
 				System.err.println( "Error reading the data: " + e.getMessage());
 				Menu.printMenu();
 			} catch (CloneNotSupportedException e) {
-				System.err.println( "Error computing shortest path ");
+				System.err.println( "Error computing shortest route ");
 				Menu.printMenu();
 			}
 		}
 	}
 	
 	/**
-	 * Validates the input and compute the distance between two towns along a certain path 
-	 * @param in path to compute distance
-	 * @return Calculated distance or -1 if the path doesn't exist
+	 * Validates the input and compute the distance between two towns along a certain route 
+	 * @param in route to compute distance
+	 * @return Calculated distance or -1 if the route doesn't exist
 	 * @throws IllegalArgumentException wrong city name
 	 * @throws DestinationAlreadyExistsException Town already exist
 	 * @throws InvalidRouteException Invalid route to compute
@@ -102,9 +102,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Compute the distance between to towns along a certain path.
+	 * Compute the distance between to towns along a certain route.
 	 * @param townsList
-	 * @return distance between a certain path
+	 * @return distance between a certain route
 	 * @throws IllegalArgumentException
 	 * @throws DestinationAlreadyExistsException
 	 * @throws InvalidRouteException
@@ -157,9 +157,9 @@ public class Controller {
 	}
 	
 	/**
-	 * Validates that the input is with the format Town Town and compute the number of different paths
+	 * Validates that the input is with the format Town Town and compute the number of different routes
 	 * @param in
-	 * @return number of different paths between two towns
+	 * @return number of different routes between two towns
 	 * @throws IllegalArgumentException
 	 * @throws InvalidRouteException
 	 */
@@ -173,10 +173,10 @@ public class Controller {
 	}
 	
 	/**
-	 * Compute the number of different paths between two towns
+	 * Compute the number of different routes between two towns
 	 * @param start
 	 * @param end
-	 * @return number of different paths between two towns
+	 * @return number of different routes between two towns
 	 */
 	public int numberDifferentRoutes(Town start, Town destination) {
 		intializeDifferentRoutesStructures(start);
@@ -226,7 +226,7 @@ public class Controller {
 	/**
 	 * Validates the input, and verify if dijkstra algorithm needs to be run
 	 * @param in - input to validate
-	 * @return A path with minimum distance between two towns
+	 * @return A route with minimum distance between two towns
 	 * @throws IllegalArgumentException
 	 * @throws DestinationAlreadyExistsException
 	 * @throws InvalidRouteException
@@ -252,7 +252,7 @@ public class Controller {
 	}
 	
 	/**
-	 * Compute a path with minimum distance between two towns, the result is the predecessors list
+	 * Compute a route with minimum distance between two towns, the result is the predecessors list
 	 * @param start
 	 * @throws IllegalArgumentException
 	 * @throws DestinationAlreadyExistsException
@@ -265,7 +265,7 @@ public class Controller {
 		// Start point of the algorithm
 		minimumWeight.put(start.getName(), 0);
 		
-		// For each candidate we find the shortest path to the start point
+		// For each candidate we find the shortest route to the start point
 		while( candidates.size() != 0 ) {
 			
 			Candidate cand = getMinimumCand( );
@@ -291,7 +291,7 @@ public class Controller {
 	 * @param cand
 	 */
 	private void updateMinimumWeight( Destination neighbor, Candidate cand ) {
-		// Candidate is always the minimum path to this point 
+		// Candidate is always the minimum route to this point 
 		int w = minimumWeight.get(cand.getTown().getName()) + neighbor.getWeight();
 			
 		if( w < minimumWeight.get(neighbor.getTown().getName())) {

@@ -40,12 +40,12 @@ Output #5: NO SUCH ROUTE
 
 ### Assumptions
     * A track is a direct connection from one town to another
-    * A path is way to get from one town to another, trough one or more tracks
+    * A route is way to get from one town to another, trough one or more tracks
     * Town names are just 1 letter from a-z or A-Z
     * For a given track, the starting and ending town will not be the same
     * The weight of the track must be > 0
     * A given track will never appear more than once
-    * When searching for path, only simple path will be considered
+    * When searching for routes, only simple route will be considered
     * When testing, this will run on the last graph given
 
 ### First use:
@@ -59,9 +59,9 @@ Output #5: NO SUCH ROUTE
         4. Calculate distance along route
         5. Number of different routes between two towns
         6. Shortest route between two towns
-        7. Test the distance between two towns along a certain path
+        7. Test the distance between two towns along a certain route
         8. Test number of different routes between two towns
-        9. Test the shortest path between two towns
+        9. Test the shortest route between two towns
         10. Exit
 
 #### Option 0. Print the menu
@@ -85,11 +85,11 @@ Output #5: NO SUCH ROUTE
 
 #### Option 4. Calculate distance along route
     Computes distance along a route. The program will compute the distance
-    between each track and give the total sum of the path. the format of the input is
+    between each track and give the total sum of the route. the format of the input is
     Town-Town-Town-Town, as many towns as you want, example: A-B-C-D-E
 
-#### Option 5. Number of different routes between two towns
-    Computes the number of SIMPLE different routes between two towns,
+#### Option 5. Number of different route between two towns
+    Computes the number of SIMPLE different route between two towns,
     the format of the input is TownTown, example: AB    
 
 #### Option 6. Shortest route between two towns
@@ -104,7 +104,7 @@ Output #5: NO SUCH ROUTE
     B-C
     6
     You can do more than one test with the same input file.
-    You'll be asked to introduce the full path of the test file.
+    You'll be asked to introduce the full route of the test file.
     The result of the test will be True in case the result == expected output,
     false otherwise. The test will run as many lines/2 the file has.
 
@@ -116,11 +116,11 @@ Output #5: NO SUCH ROUTE
     BA
     0
     You can do more than one test with the same input file.
-    You'll be asked to introduce the full path of the test file.
+    You'll be asked to introduce the full route of the test file.
     The result of the test will be True in case the result == expected output,
     false otherwise. The test will run as many lines/2 the file has.
 
-#### Option 9. Test shortest path between two towns
+#### Option 9. Test shortest route between two towns
     For the test, the input file should be with the format of first line input,
     second line expected output:
     AB
@@ -128,7 +128,7 @@ Output #5: NO SUCH ROUTE
     B-A
     NO SUCH ROUTE
     You can do more than one test with the same input file.
-    You'll be asked to introduce the full path of the test file.
+    You'll be asked to introduce the full route of the test file.
     The result of the test will be True in case the result == expected output,
     false otherwise. The test will run as many lines/2 the file has.
 

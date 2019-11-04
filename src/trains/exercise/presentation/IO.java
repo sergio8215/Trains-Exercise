@@ -67,8 +67,8 @@ public class IO {
 	}
 	
 	/**
-	 * Prints the shortest path between two towns
-	 * @param sp path of towns 
+	 * Prints the shortest route between two towns
+	 * @param sp route of towns 
 	 */
 	public static void printShortestPath(List<Town> sp) {
 		int size = sp.size();
@@ -86,8 +86,8 @@ public class IO {
 	}
 
 	/**
-	 * Prints the shortest path between two towns
-	 * @param sp path of towns 
+	 * Prints the shortest route between two towns
+	 * @param sp route of towns 
 	 */
 	public static void printNumberDifferentRoutes(int routes) {
 		
