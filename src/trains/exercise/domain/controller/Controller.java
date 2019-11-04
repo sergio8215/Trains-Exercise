@@ -4,14 +4,20 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import trains.exercise.domain.classes.CC;
 import trains.exercise.domain.classes.Candidate;
+import trains.exercise.domain.classes.DFSNumber;
 import trains.exercise.domain.classes.Destination;
 import trains.exercise.domain.classes.Graph;
+import trains.exercise.domain.classes.InverseNumber;
 import trains.exercise.domain.classes.Town;
+import trains.exercise.domain.classes.Visited;
 import trains.exercise.domain.exception.DestinationAlreadyExistsException;
 import trains.exercise.domain.exception.InvalidRouteException;
 import trains.exercise.presentation.IO;
@@ -33,11 +39,15 @@ public class Controller {
 	private Set<String> visited;
 
 	// Number of different routes between two towns
-	private List<Boolean> visitedDFS;
-	private List<Integer> ndfs;
-	private List<Integer> ninv;
-	private int num_dfs = 0;
-	private int num_inv = 0;
+	private Map<String,Boolean> visitedDFS;
+	private Map<String,Integer> ndfs;
+	private Map<String,Integer> ninv;
+	
+	private List<CC> Cc; // Connected components 
+	private int num_dfs;
+	private int num_inv;
+	private int ncc;
+	private int nroutes;
 	
 	/**
 	 * Empty constructor
@@ -167,29 +177,109 @@ public class Controller {
 	 * @throws IllegalArgumentException
 	 * @throws InvalidRouteException
 	 */
-//	public int numberDifferentRoutesAndValidate(String in) throws
-//		IllegalArgumentException, InvalidRouteException {
-//		String[] towns = IO.validateTwoTownRoute(in);
-//		Town start = new Town(towns[0]);
-//		Town end =  new Town(towns[1]);
-//		
-//		return numberDifferentRoutes(start, end);
-//	}
-//	
+	public int numberDifferentRoutesAndValidate(String in) throws
+		IllegalArgumentException, InvalidRouteException {
+		String[] towns = IO.validateTwoTownRoute(in);
+		Town start = new Town(towns[0]);
+		Town end =  new Town(towns[1]);
+		
+		return numberDifferentRoutes(start, end);
+	}
+	
 	/**
 	 * Compute the number of different paths between two towns
 	 * @param start
 	 * @param end
 	 * @return number of different paths between two towns
 	 */
-//	public int numberDifferentRoutes(Town start, Town end) {
-//		
-//		for( int i = 0; i <  ) {
-//			
-//		}
-//		return 0;
-//	}
+	public int numberDifferentRoutes(Town start, Town end) {
+		intializeDifferentRoutesStructures(start);
+		int i = 0;
+		Visited visited;
+		Iterator<Visited> it = visitedDFS. .iterator();
+		while(it.hasNext()) {
+			visited = it.next();
+			if( !visited.isVisited() ) {
+				numberDifferentRoutesRec(visited , 0, end);		
+			}
+		}
+		
+		return nroutes;
+	}
 	
+	/**
+	 * Recursive method of numberDifferentRoutes 
+	 * @param i
+	 * @return
+	 */
+	private void numberDifferentRoutesRec(Visited visited, int father, Town end) {
+		// PRE-Visit(v)
+		num_dfs += 1;
+		System.out.println("V: "+act.getTown().getName());
+		// If my neighbor is the end, we count the path
+		if( !isNeighborEqualsEnd(visited.getTown(), end) ) {
+			visited.setVisited(true);	
+			ndfs.get(visited.getTown()).setValue(num_dfs);
+		}else {
+			nroutes++;
+		}			
+		
+		for( int neighbor=0; neighbor < getNeighborTowns(act.getTown()).size(); neighbor++ ) {
+				
+				if ( !visitedDFS.get(neighbor).isVisited() ) {
+					// PRE-Visit-edge(v,w)
+					numberDifferentRoutesRec(neighbor, position, end);
+					// POST-Visit-edge(v,w)
+				}else {
+					if( neighbor != position ) System.out.println("There is a cicle");
+				}
+		}
+		// POST-VIST(v)
+		num_inv++;
+		ninv.get(position).setValue(num_inv);
+	}
+	
+	/**
+	 * Gets the neighbor towns of a given town
+	 * @param town
+	 * @return list of neighbor towns
+	 */
+	private List<Town> getNeighborTowns( Town town ){
+		return graph.getGraphDFS().get(town.getName());
+	}
+	
+	private boolean isNeighborEqualsEnd( Town n, Town end) {
+		return n.getName().equals(end.getName());
+	}
+	
+	/**
+	 * Initialize all necessary DFS structures
+	 */
+	private void intializeDifferentRoutesStructures(Town start) {
+		visitedDFS = new HashMap<Visited>();
+		ndfs = new HashMap<DFSNumber>();
+		ninv = new HashMap<InverseNumber>();
+		Cc = new ArrayList<CC>();
+		num_dfs = 0;
+		num_inv = 0;
+		ncc = 0;
+		nroutes = 0;
+		
+		visitedDFS.add(new Visited(start, false));
+		ndfs.add(new DFSNumber(start, 0));
+		ninv.add(new InverseNumber(start, 0));
+		Cc.add(new CC(start, 0));
+		
+		for( String k: graph.getGraph().keySet() ) {
+			if( !k.equals(start.getName()) ) {
+				Town town = new Town(k);
+				visitedDFS.add(new Visited(town, false));
+				ndfs.add(new DFSNumber(town, 0));
+				ninv.add(new InverseNumber(town, 0));
+				Cc.add(new CC(town, 0));
+			}
+		}
+	}
 	
 	/**
 	 * Validates the input, and verify if dijkstra algorithm needs to be run

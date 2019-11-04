@@ -59,7 +59,9 @@ Output #5: NO SUCH ROUTE
         4. Calculate distance along route
         5. Number of different routes between two towns
         6. Shortest route between two towns
-        7. Exit
+        7. Test the distance between two towns along a certain path
+        8. Test the shortest path between two towns
+        9. Exit
 
 #### Option 0. Print the menu
     Prints the menu

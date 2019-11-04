@@ -84,6 +84,19 @@ public class IO {
 			System.out.println("There is no possible route");
 		}
 	}
+
+	/**
+	 * Prints the shortest path between two towns
+	 * @param sp path of towns 
+	 */
+	public static void printNumberDifferentRoutes(int routes) {
+		
+		if ( routes>0 ) {
+			System.out.println(routes);			
+		}else {
+			System.out.println("There is no possible route");
+		}
+	}
 	
 	/**
 	 * Reads and validates list of towns, each town is one letter 

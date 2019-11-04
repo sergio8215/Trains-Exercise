@@ -74,8 +74,8 @@ public class Menu {
 					break;
 				case 5:
 					if(c.isGraphLoaded()) {
-						//System.out.println("Please introduce the start town and destination town to calculate the number of routes: ");
-						System.out.println("Option not available");
+						System.out.println("Please introduce the start town and destination town to calculate the number of routes: ");
+						IO.printNumberDifferentRoutes(c.numberDifferentRoutesAndValidate(s.nextLine()));
 					}else {
 						System.out.println("First you need to load the graph");
 					}

@@ -18,6 +18,9 @@ public class Graph{
 	
 	// Compute shortest distance
 	private Map<String, List<Destination> > graphP;
+
+	// Compute number of different routes
+	private Map<String, List<Town> > graphDFS;
 	
 	/**
 	 * Empty constructor method
@@ -25,6 +28,7 @@ public class Graph{
 	public Graph() {
 		graph = new HashMap<String, Map<String, Integer> >();
 		graphP = new HashMap<String, List<Destination> >();
+		graphDFS = new HashMap<String, List<Town> >();
 	}
 	
 
@@ -48,9 +52,11 @@ public class Graph{
 				
 				// If the destination doesn't exist, we add it
 				if( !graph.get(start).containsKey(end) ) {
+					Town town = new Town(end);
+					Destination d = new Destination(town,weight);
 					graph.get(start).put( end, weight );
-					Destination d = new Destination(new Town(end),weight);
 					graphP.get(start).add(d);
+					graphDFS.get(start).add(town);
 					
 				}else {
 					throw new DestinationAlreadyExistsException(
@@ -62,6 +68,7 @@ public class Graph{
 				Town e = new Town(end);
 				initializeDestinationsGraph(s,e,weight);
 				initializeDestinationsGraphP(s,e,weight);
+				initializeDestinationsGraphDFS(s,e);
 			}
 		}
 	}
@@ -90,6 +97,18 @@ public class Graph{
 		destination.put(end.getName(), weight);
 		graph.put( start.getName(), destination);
 	}
+
+	/**
+	 * Initialize list of destination for a given town tree way.
+	 * @param start town
+	 * @param neighbor Town
+	 */
+	private void initializeDestinationsGraphDFS(Town start, Town neighborTown){
+		List<Town> neighborTowns = new ArrayList<Town>();
+		neighborTowns.add(new Town(neighborTown.getName()));
+		graphDFS.put( start.getName(), neighborTowns);
+	}
+	
 	
 	/* Getters */
 	public Map<String, List<Destination>> getGraphP() {
@@ -98,5 +117,9 @@ public class Graph{
 
 	public Map<String, Map<String, Integer> > getGraph(){
 		return graph;
+	}
+	
+	public Map<String, List<Town> > getGraphDFS(){
+		return graphDFS;
 	}
 }
