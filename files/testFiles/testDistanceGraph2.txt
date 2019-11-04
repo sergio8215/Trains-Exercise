@@ -1,0 +1,10 @@
+A-C-G
+10
+A-C-G-E
+17
+E-H-F-D-B-C-G
+32
+A-E-D
+NO SUCH ROUTE
+G-E-H
+16

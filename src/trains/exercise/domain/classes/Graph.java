@@ -25,12 +25,7 @@ public class Graph{
 	/**
 	 * Empty constructor method
 	 */
-	public Graph() {
-		graph = new HashMap<String, Map<String, Integer> >();
-		graphP = new HashMap<String, List<Destination> >();
-		graphDFS = new HashMap<String, List<Town> >();
-	}
-	
+	public Graph() {}
 
 	/**
 	 * Generates a graph from the user routes entry.
@@ -40,6 +35,7 @@ public class Graph{
 	 */
 	public void generateGraph( String[] routes ) throws
 		DestinationAlreadyExistsException,IllegalArgumentException{
+		initializeGraphs();
 		
 		for(String route: routes) {
 			
@@ -109,6 +105,14 @@ public class Graph{
 		graphDFS.put( start.getName(), neighborTowns);
 	}
 	
+	/**
+	 * Initialization of all graphs
+	 */
+	private void initializeGraphs() {
+		graph = new HashMap<String, Map<String, Integer> >();
+		graphP = new HashMap<String, List<Destination> >();
+		graphDFS = new HashMap<String, List<Town> >();
+	}
 	
 	/* Getters */
 	public Map<String, List<Destination>> getGraphP() {

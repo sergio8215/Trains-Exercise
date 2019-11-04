@@ -4,20 +4,14 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import trains.exercise.domain.classes.CC;
 import trains.exercise.domain.classes.Candidate;
-import trains.exercise.domain.classes.DFSNumber;
 import trains.exercise.domain.classes.Destination;
 import trains.exercise.domain.classes.Graph;
-import trains.exercise.domain.classes.InverseNumber;
 import trains.exercise.domain.classes.Town;
-import trains.exercise.domain.classes.Visited;
 import trains.exercise.domain.exception.DestinationAlreadyExistsException;
 import trains.exercise.domain.exception.InvalidRouteException;
 import trains.exercise.presentation.IO;
@@ -40,17 +34,6 @@ public class Controller {
 
 	// Number of different routes between two towns
 	private Map<String,Boolean> visitedDFS;
-	private Map<String,Integer> ndfs;
-	private Map<String,Integer> ninv;
-	
-	private Map<String,List<Town>> treeEdges;
-	private Map<String,List<Town>> backEdges;
-	
-	private List<CC> Cc; // Connected components 
-	private int num_dfs;
-	private int num_inv;
-	private int ncc;
-	private int nroutes;
 	
 	/**
 	 * Empty constructor
@@ -74,7 +57,7 @@ public class Controller {
 		Menu.printMenu();
 		String option = "0";
 		
-		while( !option.equals("9") ) {
+		while( !option.equals("10") ) {
 			try {
 				option = Menu.start();
 				
@@ -195,16 +178,10 @@ public class Controller {
 	 * @param end
 	 * @return number of different paths between two towns
 	 */
-	public int numberDifferentRoutes(Town start, Town end) {
+	public int numberDifferentRoutes(Town start, Town destination) {
 		intializeDifferentRoutesStructures(start);
 		
-		for(String town: visitedDFS.keySet()) {
-			if( !visitedDFS.get(town) ) {
-				numberDifferentRoutesRec(town ,town, end);		
-			}
-		}
-		
-		return nroutes;
+		return numberDifferentRoutesRec(start, destination); 
 	}
 	
 	/**
@@ -212,33 +189,18 @@ public class Controller {
 	 * @param i
 	 * @return
 	 */
-	private void numberDifferentRoutesRec(String visited, String father, Town end) {
-		// PRE-Visit(v)
-		num_dfs += 1;
-		System.out.println("V: "+visited);
-		visitedDFS.put(visited,true);	
-		ndfs.put(visited,num_dfs);
-		// If my neighbor is the end, we count the path
-		if( !isNeighborEqualsEnd(visited, end) ) {
-		}else {
-			nroutes++;
-		}			
+	private int numberDifferentRoutesRec(Town current, Town destination) {
+		int n = 0;
+		// if isVisited
+		if ( visitedDFS.get(current.getName()) ) return 0;
+		// if visited == end, I have one possible route
+		if ( current.getName().equals(destination.getName()) ) return 1;
+		visitedDFS.put(current.getName(),true);
 		
-		for( Town neighbor: getNeighborTowns(visited) ) {
-				
-				if ( !visitedDFS.get(neighbor.getName()) ) {
-					treeEdges.get(visited).add(neighbor);
-					// PRE-Visit-edge(v,w)
-					numberDifferentRoutesRec(neighbor.getName(), visited, end);
-					// POST-Visit-edge(v,w)
-				}else if( !neighbor.getName().equals(visited)) {
-					backEdges.get(visited).add(neighbor);
-					System.out.println("There is a cicle");
-				}
+		for( Town neighbor: getNeighborTowns(current.getName()) ) {
+			n += numberDifferentRoutesRec(neighbor, destination);
 		}
-		// POST-VIST(v)
-		num_inv++;
-		ninv.put(visited,num_inv);
+		return n;
 	}
 	
 	/**
@@ -250,32 +212,14 @@ public class Controller {
 		return graph.getGraphDFS().get(town);
 	}
 	
-	private boolean isNeighborEqualsEnd( String n, Town end) {
-		return n.equals(end.getName());
-	}
-	
 	/**
 	 * Initialize all necessary DFS structures
 	 */
 	private void intializeDifferentRoutesStructures(Town start) {
 		visitedDFS = new HashMap<String, Boolean>();
-		ndfs = new HashMap<String, Integer>();
-		ninv = new HashMap<String, Integer>();
-		
-		treeEdges = new HashMap<String, List<Town>>();
-		backEdges = new HashMap<String, List<Town>>();
-		
-		num_dfs = 0;
-		num_inv = 0;
-		nroutes = 0;
 		
 		for( String k: graph.getGraph().keySet() ) {
 			visitedDFS.put(k, false);
-			ndfs.put(k, 0);
-			ninv.put(k, 0);
-			
-			treeEdges.put(k, new ArrayList<Town>());
-			backEdges.put(k, new ArrayList<Town>());
 		}
 	}
 	

@@ -6,7 +6,7 @@ import java.util.Scanner;
 import trains.exercise.domain.controller.Controller;
 import trains.exercise.domain.exception.DestinationAlreadyExistsException;
 import trains.exercise.domain.exception.InvalidRouteException;
-import trains.exercise.domain.junits.ControllerTest;
+import trains.exercise.domain.test.ControllerTest;
 
 public class Menu {
 	
@@ -104,13 +104,24 @@ public class Menu {
 						System.out.println("Test the shortest path between two towns. First line of the file the input, second line expected output ");
 						System.out.println("Please enter fullpath of the file: ");
 						ControllerTest ct = new ControllerTest();
-						ct.readTestFilecomputeShortestRoute(s.nextLine(), c);
+						ct.readTestFileNumberDifferentRoutes(s.nextLine(), c);
 						
 					}else {
 						System.out.println("First you need to load the graph");
 					}
 					break;
 				case 9:
+					if(c.isGraphLoaded()) {
+						System.out.println("Test the number of different routes between two towns. First line of the file the input, second line expected output ");
+						System.out.println("Please enter fullpath of the file: ");
+						ControllerTest ct = new ControllerTest();
+						ct.readTestFilecomputeShortestRoute(s.nextLine(), c);
+						
+					}else {
+						System.out.println("First you need to load the graph");
+					}
+					break;					
+				case 10:
 					// Exit
 					break;
 				default:
@@ -138,8 +149,9 @@ public class Menu {
 		System.out.println("5. Number of different routes between two towns" );
 		System.out.println("6. Shortest route between two towns" );
 		System.out.println("7. Test the distance between two towns along a certain path" );
-		System.out.println("8. Test the shortest path between two towns" );
-		System.out.println("9. Exit" );
+		System.out.println("8. Test number of different routes between two towns" );
+		System.out.println("9. Test the shortest path between two towns" );
+		System.out.println("10. Exit" );
 	}
 	
 }

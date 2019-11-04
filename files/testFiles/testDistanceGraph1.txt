@@ -8,3 +8,5 @@ A-E-B-C-D
 22
 A-E-D
 NO SUCH ROUTE
+D-C-E-B-C-E-B
+22

@@ -54,16 +54,16 @@ public class IO {
 	 */
 	public static void printGraph( Graph graph ){
 		int size = graph.getGraph().size();
-		int i = 1;
+		StringBuilder sb = new StringBuilder(); 
 		int weight = 0;
 		for( String start: graph.getGraph().keySet() ) {
 			for( String end : graph.getGraph().get(start).keySet() ) {
-				weight = graph.getGraph().get(start).get(end) ;
-				System.out.print( start + end + String.valueOf(weight) );
-				if (i < size) System.out.print( ", " );
+				weight = graph.getGraph().get(start).get(end);
+				sb.append( start + end + String.valueOf(weight) + ", " );
 			}
-			i++;
 		}
+		sb.delete(sb.length()-2, sb.length());
+		System.out.println(sb.toString());
 	}
 	
 	/**

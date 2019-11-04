@@ -1,4 +1,4 @@
-package trains.exercise.domain.junits;
+package trains.exercise.domain.test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -110,4 +110,44 @@ public class ControllerTest {
 		}
 		return sb.toString();
 	}
+	
+	/**
+	 * Test computation of shortest route
+	 * @param in
+	 * @param out
+	 * @param c
+	 * @return true when the the output is as expected
+	 */
+	public boolean numberDifferentRoutesAndValidateTest( String in, String out, Controller c ) {
+		boolean result = false;
+		try {
+			result = String.valueOf(c.numberDifferentRoutesAndValidate(in)).equals(out);
+		} catch (IllegalArgumentException | InvalidRouteException e) {}
+		
+		return result;
+	}
+	
+	/**
+	 * Reads the input file and execute the test
+	 * @param fileName
+	 * @param c
+	 * @throws FileNotFoundException
+	 * @throws IllegalArgumentException
+	 * @throws InvalidRouteException
+	 */
+	public void readTestFileNumberDifferentRoutes( String fileName, Controller c ) throws
+		FileNotFoundException {
+	    
+		File file = new File(fileName); 
+	    Scanner s = new Scanner(file);
+	    String in = "";
+	    String out= "";
+	    while(s.hasNext()) {
+	    	in = s.nextLine();
+		    out = s.nextLine();
+		    System.out.println("Result of the test: "+numberDifferentRoutesAndValidateTest(in, out, c));
+	    }
+	    s.close();
+	  } 
+	
 }

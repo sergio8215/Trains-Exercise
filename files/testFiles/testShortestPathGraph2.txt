@@ -1,0 +1,12 @@
+AB
+A-C-F-D-B
+CB
+C-F-D-B
+DC
+D-B-C
+EA
+E-H-F-D-B-A
+EC
+E-H-F-D-B-C
+DK
+There is no possible route

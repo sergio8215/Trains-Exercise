@@ -88,7 +88,7 @@ Output #5: NO SUCH ROUTE
     Town-Town-Town-Town, as many towns as you want, example: A-B-C-D-E
 
 #### Option 5. Number of different routes between two towns
-    Computes the number of different routes between two towns,
+    Computes the number of SIMPLE different routes between two towns,
     the format of the input is TownTown, example: AB    
 
 #### Option 6. Shortest route between two towns
@@ -96,24 +96,58 @@ Output #5: NO SUCH ROUTE
     the input is TownTown, example: AB    
 
 #### Option 7. Test distance along route
-    For the test, the input file should be with the format of first line input, second line expected output:
+    For the test, the input file should be with the format of first line input,
+    second line expected output:
     A-B-C
     9
     B-C
     6
     You can do more than one test with the same input file.
     You'll be asked to introduce the full path of the test file.
-    The result of the test will be True in case the result == expected output, false otherwise. The test will run as many lines/2 the file has.
+    The result of the test will be True in case the result == expected output,
+    false otherwise. The test will run as many lines/2 the file has.
 
-#### Option 8. Test shortest path between two towns
-    For the test, the input file should be with the format of first line input, second line expected output:
-    A-B-C
-    9
-    B-C
-    6
+#### Option 8. Test number of different routes between two towns
+    For the test, the input file should be with the format of first line input,
+    second line expected output:
+    AB
+    2
+    BA
+    0
     You can do more than one test with the same input file.
     You'll be asked to introduce the full path of the test file.
-    The result of the test will be True in case the result == expected output, false otherwise. The test will run as many lines/2 the file has.
+    The result of the test will be True in case the result == expected output,
+    false otherwise. The test will run as many lines/2 the file has.
+
+#### Option 9. Test shortest path between two towns
+    For the test, the input file should be with the format of first line input,
+    second line expected output:
+    AB
+    A-B
+    B-A
+    NO SUCH ROUTE
+    You can do more than one test with the same input file.
+    You'll be asked to introduce the full path of the test file.
+    The result of the test will be True in case the result == expected output,
+    false otherwise. The test will run as many lines/2 the file has.
 
 #### Option 9. Exit of the program
     This option finishes the execution of the program.
+
+## Given graphs
+At the path \Trains Exercise\files\graph you'll find two input graph files.
+
+Graph1
+![alt text](https://raw.githubusercontent.com/sergio8215/Trains-Exercise/tree/master/files/img/graph1.png)
+
+Graph2
+![alt text](https://raw.githubusercontent.com/sergio8215/Trains-Exercise/tree/master/files/img/graph2.png)
+
+## Given test Files
+At the path \Trains Exercise\files\testFiles you'll find 6 test files, 3 for each graph
+testDistanceGraph1.txt
+testShortestPathGraph1.txt
+testNumberDifferentRoutesGraph1.txt
+testDistanceGraph2.txt
+testShortestPathGraph2.txt
+testNumberDifferentRoutesGraph2.txt
