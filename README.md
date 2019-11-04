@@ -138,11 +138,11 @@ Output #5: NO SUCH ROUTE
 ## Given graphs
     At the path \Trains Exercise\files\graph you'll find two input graph files.
 
-    Graph1
-    ![alt text](https://raw.githubusercontent.com/sergio8215/Trains-Exercise/master/files/img/graph1.png)
+Graph1
+![alt text](https://raw.githubusercontent.com/sergio8215/Trains-Exercise/master/files/img/graph1.png)
 
-    Graph2
-    ![alt text](https://raw.githubusercontent.com/sergio8215/Trains-Exercise/master/files/img/graph2.png)
+Graph2
+![alt text](https://raw.githubusercontent.com/sergio8215/Trains-Exercise/master/files/img/graph2.png)
 
 ## Given test Files
     At the path \Trains Exercise\files\testFiles you'll find 6 test files, 3 for each graph
