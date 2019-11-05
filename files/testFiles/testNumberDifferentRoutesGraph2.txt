@@ -1,13 +1,13 @@
 AB
-1
+2
 CB
-1
+2
 DC
 2
 DB
 1
 DH
-1
+2
 BC
 2
 IU

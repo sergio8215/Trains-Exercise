@@ -203,6 +203,7 @@ public class Controller {
 		for( Town neighbor: getNeighborTowns(current.getName()) ) {
 			n += numberDifferentRoutesRec(neighbor, destination);
 		}
+		visitedDFS.put(current.getName(),false);
 		return n;
 	}
 	

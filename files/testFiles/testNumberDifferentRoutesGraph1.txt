@@ -1,12 +1,12 @@
 AB
-2
+4
 CB
-1
+2
 DC
 2
 DB
-1
+2
 DA
 There is no possible route
 AC
-2
+4
