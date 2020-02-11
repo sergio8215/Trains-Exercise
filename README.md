@@ -31,6 +31,8 @@ Output #3: 13
 Output #4: 22
 Output #5: NO SUCH ROUTE
 
+# Solution
+
 ## Instructions of use
 
 ### Technology used: 
